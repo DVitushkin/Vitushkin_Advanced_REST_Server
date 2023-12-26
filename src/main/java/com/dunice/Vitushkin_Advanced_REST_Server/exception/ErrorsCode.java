@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorsCode {
+    UNKNOWN(0, "unknown"),
     USERNAME_SIZE_NOT_VALID(1, "Username size should be between 3 and 25"),
     ROLE_SIZE_NOT_VALID(2, "role size not valid"),
     EMAIL_SIZE_NOT_VALID(3, "email size not valid"),
@@ -12,7 +13,7 @@ public enum ErrorsCode {
     TOKEN_NOT_PROVIDED(6, "JWT token not provided"),
     UNAUTHORISED(7, "unauthorised"),
     USER_EMAIL_NOT_NULL(8, "user email mustn't be null"),
-    USER_PASSWORD_NOT_VALID(9, "user password must be more than 6 symbols"),
+    USER_PASSWORD_NOT_VALID(9, "user password must be more than 5 symbols"),
     USER_ROLE_NOT_NULL(10, "user role mustn't be null"),
     USER_EMAIL_NOT_VALID(17, "user email must be a well-formed email address"),
     EXCEPTION_HANDLER_NOT_PROVIDED(21, "Exception handler not provided"),
@@ -21,6 +22,7 @@ public enum ErrorsCode {
     PASSWORD_NOT_NULL(26, "user password mustn't be null"),
     ID_MUST_BE_POSITIVE(29, "ID must be grater than zero"),
     USER_ALREADY_EXISTS(30, "User already exists"),
+    USER_NAME_HAS_TO_BE_PRESENT(43, "User name has to be present"),
     USER_WITH_THIS_EMAIL_ALREADY_EXIST(46, "User with this email already exists"),
     HTTP_MESSAGE_NOT_READABLE_EXCEPTION(47, "Http request not valid");
 
