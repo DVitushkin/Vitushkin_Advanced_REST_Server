@@ -41,7 +41,7 @@ public class ExceptionApiHandler {
 
     @ExceptionHandler(EntityExistsException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleEntityExistsExceptions(EntityExistsException ex) {
-        return CustomSuccessResponse.badRequest(ErrorsCode.USER_WITH_THIS_EMAIL_ALREADY_EXIST.getStatusCode());
+        return CustomSuccessResponse.badRequest(ErrorsCode.USER_ALREADY_EXISTS.getStatusCode());
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
