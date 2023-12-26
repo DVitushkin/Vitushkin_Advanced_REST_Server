@@ -10,15 +10,19 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtTokenUtil {
-    private static final String SECRET = "b958e0d0a9aeb54fde6166378fd5e6ce2b9663aa3f0a39bf2e4ecf8a2b1e1927";
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
 
     private byte[] getSignInKey() {
-        return Decoders.BASE64.decode(SECRET);
+        return Decoders.BASE64.decode(secretKey);
     }
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -45,7 +49,7 @@ public class JwtTokenUtil {
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(Keys.hmacShaKeyFor(getSignInKey()))
                 .compact();
     }
