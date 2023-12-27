@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql:${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}
+    url: "jdbc:postgresql://${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}"
     username: ${REST_SERVER_DB_LOGIN}
     password: ${REST_SERVER_DB_PASS}
     driver-class-name: org.postgresql.Driver
@@ -12,7 +12,6 @@ spring:
       hibernate:
         format_sql: true
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 application:
   security:
