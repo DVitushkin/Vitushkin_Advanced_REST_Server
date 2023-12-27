@@ -1,17 +1,27 @@
 spring:
   datasource:
+<<<<<<< HEAD
     url: "jdbc:postgresql://${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}"
+=======
+    url: jdbc:postgresql:${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}
+>>>>>>> a43ab12 (Replace app properties to yml file)
     username: ${REST_SERVER_DB_LOGIN}
     password: ${REST_SERVER_DB_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
+<<<<<<< HEAD
       ddl-auto: update
     show-sql: true
+=======
+      ddl-auto: create-drop
+    show-sql: false
+>>>>>>> a43ab12 (Replace app properties to yml file)
     properties:
       hibernate:
         format_sql: true
     database: postgresql
+<<<<<<< HEAD
 
 logging:
   logback:
@@ -25,6 +35,9 @@ logging:
   level:
     com.: INFO
   file.name: "${REST_SERVER_LOG_PATH}/logs/application.log"
+=======
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+>>>>>>> a43ab12 (Replace app properties to yml file)
 
 application:
   security:
