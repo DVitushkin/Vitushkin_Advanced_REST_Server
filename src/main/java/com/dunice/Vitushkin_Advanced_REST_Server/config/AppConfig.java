@@ -1,5 +1,6 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.config;
 
+import com.dunice.Vitushkin_Advanced_REST_Server.logging.LoggerInterceptor;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +15,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableJpaAuditing
 @RequiredArgsConstructor
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
     private final UserRepository userRepository;
+    private final LoggerInterceptor loggerInterceptor;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -42,5 +46,10 @@ public class AppConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loggerInterceptor);
     }
 }
