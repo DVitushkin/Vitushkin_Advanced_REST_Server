@@ -1,15 +1,20 @@
 spring:
   datasource:
 <<<<<<< HEAD
+<<<<<<< HEAD
     url: "jdbc:postgresql://${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}"
 =======
     url: jdbc:postgresql:${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}
 >>>>>>> a43ab12 (Replace app properties to yml file)
+=======
+    url: "jdbc:postgresql://${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}"
+>>>>>>> 7b2680f (Add logging interceptor)
     username: ${REST_SERVER_DB_LOGIN}
     password: ${REST_SERVER_DB_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
+<<<<<<< HEAD
 <<<<<<< HEAD
       ddl-auto: update
     show-sql: true
@@ -17,11 +22,18 @@ spring:
       ddl-auto: create-drop
     show-sql: false
 >>>>>>> a43ab12 (Replace app properties to yml file)
+=======
+      ddl-auto: update
+    show-sql: true
+>>>>>>> 7b2680f (Add logging interceptor)
     properties:
       hibernate:
         format_sql: true
     database: postgresql
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7b2680f (Add logging interceptor)
 
 logging:
   logback:
@@ -35,9 +47,12 @@ logging:
   level:
     com.: INFO
   file.name: "${REST_SERVER_LOG_PATH}/logs/application.log"
+<<<<<<< HEAD
 =======
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 >>>>>>> a43ab12 (Replace app properties to yml file)
+=======
+>>>>>>> 7b2680f (Add logging interceptor)
 
 application:
   security:
