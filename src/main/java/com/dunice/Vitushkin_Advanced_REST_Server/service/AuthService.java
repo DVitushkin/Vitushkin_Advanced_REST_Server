@@ -4,6 +4,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.AuthDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.LoginUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.jwt.JwtTokenUtil;
+import com.dunice.Vitushkin_Advanced_REST_Server.mapper.UserMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
@@ -19,40 +20,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-
-    private LoginUserDto UserToLoginUserDtoWithToken(User user, String token) {
-        return  LoginUserDto
-                .builder()
-                .avatar(user.getAvatar())
-                .email(user.getEmail())
-                .id(user.getId())
-                .name(user.getName())
-                .role(user.getRole())
-                .token(token)
-                .build();
-    }
+    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public CustomSuccessResponse<LoginUserDto> register(RegisterUserDto request) {
         if (userRepository.existsUserByEmail(request.getEmail())) {
             throw new EntityExistsException();
         }
-        User user = User.builder()
-                .avatar(request.getAvatar())
-                .email(request.getEmail())
-                .name(request.getName())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .build();
 
-        return CustomSuccessResponse.data(
-                UserToLoginUserDtoWithToken(
-                        userRepository.save(user),
-                        jwtTokenUtil.generateToken(user)
-                        )
-                );
+        User user = userMapper.RegisterUserDtoToUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+
+        LoginUserDto loginUserDto = userMapper.UserToLoginUserDto(user);
+        loginUserDto.setToken(jwtTokenUtil.generateToken(user));
+        return CustomSuccessResponse.data(loginUserDto);
     }
 
     public CustomSuccessResponse<LoginUserDto> login(AuthDto request) {
@@ -64,11 +48,10 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        return CustomSuccessResponse.data(
-                UserToLoginUserDtoWithToken(
-                        userRepository.save(user),
-                        jwtTokenUtil.generateToken(user)
-                )
-        );
+        userRepository.save(user);
+
+        LoginUserDto loginUserDto = userMapper.UserToLoginUserDto(user);
+        loginUserDto.setToken(jwtTokenUtil.generateToken(user));
+        return CustomSuccessResponse.data(loginUserDto);
     }
 }
