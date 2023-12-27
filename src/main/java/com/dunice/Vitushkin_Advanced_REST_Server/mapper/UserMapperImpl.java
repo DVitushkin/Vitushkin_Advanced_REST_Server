@@ -10,20 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserMapperImpl implements UserMapper {
-    private final PasswordEncoder passwordEncoder;
+
     @Override
     public User RegisterUserDtoToUser(RegisterUserDto registerUserDto) {
         return User.builder()
                 .avatar(registerUserDto.getAvatar())
                 .email(registerUserDto.getEmail())
                 .name(registerUserDto.getName())
-                .password(passwordEncoder.encode(registerUserDto.getPassword()))
                 .role(registerUserDto.getRole())
                 .build();
     }
 
     @Override
-    public LoginUserDto UserToLoginUserDto(User user, String token) {
+    public LoginUserDto UserToLoginUserDto(User user) {
         return LoginUserDto
                 .builder()
                 .avatar(user.getAvatar())
@@ -31,7 +30,6 @@ public class UserMapperImpl implements UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .role(user.getRole())
-                .token(token)
                 .build();
     }
 }

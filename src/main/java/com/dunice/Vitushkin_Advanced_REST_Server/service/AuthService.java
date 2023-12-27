@@ -10,6 +10,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     public CustomSuccessResponse<LoginUserDto> register(RegisterUserDto request) {
@@ -25,9 +27,11 @@ public class AuthService {
         }
 
         User user = userMapper.RegisterUserDtoToUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        LoginUserDto loginUserDto = userMapper.UserToLoginUserDto(user, jwtTokenUtil.generateToken(user));
+        LoginUserDto loginUserDto = userMapper.UserToLoginUserDto(user);
+        loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.data(loginUserDto);
     }
 }
