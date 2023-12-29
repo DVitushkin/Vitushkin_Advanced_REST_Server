@@ -4,7 +4,6 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.LoginUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component

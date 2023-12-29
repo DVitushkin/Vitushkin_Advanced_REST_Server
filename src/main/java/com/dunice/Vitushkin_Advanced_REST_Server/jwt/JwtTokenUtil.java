@@ -1,8 +1,6 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.jwt;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 import io.jsonwebtoken.Claims;
@@ -42,12 +40,7 @@ public class JwtTokenUtil {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
-
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts.builder()
-                .claims(extraClaims)
+        return "Bearer " + Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
