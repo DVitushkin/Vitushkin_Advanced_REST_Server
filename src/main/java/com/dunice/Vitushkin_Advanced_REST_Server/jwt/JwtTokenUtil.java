@@ -35,8 +35,9 @@ public class JwtTokenUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(getSignInKey()))
                 .build()
-                .parseSignedClaims(token, getSignInKey())
+                .parseSignedClaims(token)
                 .getPayload();
     }
 
