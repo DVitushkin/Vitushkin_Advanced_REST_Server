@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository userRepository;
+
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
@@ -26,11 +26,11 @@ public class AuthService {
             throw new EntityExistsException();
         }
 
-        User user = userMapper.RegisterUserDtoToUser(request);
+        User user = userMapper.registerUserDtoToUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        LoginUserDto loginUserDto = userMapper.UserToLoginUserDto(user);
+        LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.data(loginUserDto);
     }
