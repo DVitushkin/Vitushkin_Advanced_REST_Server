@@ -13,19 +13,6 @@ spring:
         format_sql: true
     database: postgresql
 
-logging:
-  logback:
-    rollingpolicy:
-      max-file-size: 10MB
-      max-history: 30
-  pattern:
-    console: "%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable"
-    file: "%d %-5level [%thread] %logger : %msg%n"
-    level: "%5p"
-  level:
-    com.: INFO
-  file.name: "${REST_SERVER_LOG_PATH}/logs/application.log"
-
 application:
   security:
     jwt:
