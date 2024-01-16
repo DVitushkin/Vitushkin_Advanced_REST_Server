@@ -9,19 +9,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@Accessors(chain = true)
 @Table(name = "log_event")
-public class LogEvent {
+public class LogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -31,11 +29,26 @@ public class LogEvent {
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
-    @Column(name = "log_level")
-    private String logLevel;
+    @Column(name = "http_method")
+    private String httpMethod;
 
-    @Column(name = "request")
-    private String request;
+    @Column(name = "request_uri")
+    private String requestUri;
+
+    @Column(name = "parameters")
+    private String parameters;
+
+    @Column(name = "http_protocol")
+    private String httpProtocol;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "java_method")
+    private String javaMethod;
+
+    @Column(name = "status_code")
+    private String statusCode;
 
     @Nullable
     @Column(name = "exception")
