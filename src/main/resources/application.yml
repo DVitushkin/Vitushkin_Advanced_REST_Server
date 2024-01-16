@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://${REST_SERVER_DB_HOST}:${REST_SERVER_DB_PORT}/${REST_SERVER_DB_NAME}"
+    username: ${REST_SERVER_DB_LOGIN}
+    password: ${REST_SERVER_DB_PASS}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+
+logging:
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+  pattern:
+    console: "%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    level: "%5p"
+  level:
+    com.: INFO
+  file.name: "${REST_SERVER_LOG_PATH}/logs/application.log"
+
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: 86400000 # 24 hours
