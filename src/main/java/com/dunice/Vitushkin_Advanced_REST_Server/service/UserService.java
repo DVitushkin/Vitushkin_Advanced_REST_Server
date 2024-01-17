@@ -32,7 +32,7 @@ public class UserService {
         return CustomSuccessResponse.withData(userViewList);
     }
 
-    public CustomSuccessResponse<?> getUserById(Long id) {
+    public CustomSuccessResponse<PublicUserView> getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
     }
