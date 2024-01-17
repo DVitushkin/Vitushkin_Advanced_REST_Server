@@ -25,27 +25,37 @@ public class ExceptionApiHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Integer[] codes = parseValidateErrors(ex);
-        return CustomSuccessResponse.badRequest(codes);
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(codes));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleHttpMessageNotReadableExceptions(
             HttpMessageNotReadableException ex) {
-        return CustomSuccessResponse.badRequest(ErrorsCode.HTTP_MESSAGE_NOT_READABLE_EXCEPTION.getStatusCode());
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.HTTP_MESSAGE_NOT_READABLE_EXCEPTION.getStatusCode()));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleEntityNotFoundExceptions(EntityNotFoundException ex) {
-        return CustomSuccessResponse.badRequest(ErrorsCode.USER_NOT_FOUND.getStatusCode());
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.USER_NOT_FOUND.getStatusCode()));
     }
 
     @ExceptionHandler(EntityExistsException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleEntityExistsExceptions(EntityExistsException ex) {
-        return CustomSuccessResponse.badRequest(ErrorsCode.USER_ALREADY_EXISTS.getStatusCode());
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.USER_ALREADY_EXISTS.getStatusCode()));
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleHandlerMethodValidationExceptions(HandlerMethodValidationException ex) {
-        return CustomSuccessResponse.badRequest(ErrorsCode.ID_MUST_BE_POSITIVE.getStatusCode());
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.ID_MUST_BE_POSITIVE.getStatusCode()));
     }
 }

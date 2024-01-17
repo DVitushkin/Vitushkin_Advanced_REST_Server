@@ -1,12 +1,9 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-import org.springframework.http.ResponseEntity;
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,7 +21,7 @@ public class CustomSuccessResponse<T> {
                 .build();
     }
 
-    public static <T> CustomSuccessResponse<T> data(T data) {
+    public static <T> CustomSuccessResponse<T> withData(T data) {
         return CustomSuccessResponse.<T>builder()
                 .data(data)
                 .success(true)
@@ -32,31 +29,11 @@ public class CustomSuccessResponse<T> {
                 .build();
     }
 
-    public static ResponseEntity<CustomSuccessResponse<?>> badRequest(Integer code) {
-        return ResponseEntity.badRequest()
-                .body(CustomSuccessResponse.builder()
-                        .success(true)
-                        .statusCode(code)
-                        .codes(new Integer[] { code })
-                        .build()
-        );
-    }
-
-    public static ResponseEntity<CustomSuccessResponse<?>> badRequest(Integer[] codes) {
-        Integer indexOfFirstError = 0;
-        return ResponseEntity.badRequest()
-                .body(CustomSuccessResponse.builder()
-                        .success(true)
-                        .statusCode(codes[indexOfFirstError])
-                        .codes(codes)
-                        .build());
-    }
-
-    public static ResponseEntity<CustomSuccessResponse<?>> badRequest(String msg) {
-        return ResponseEntity.badRequest()
-                .body(CustomSuccessResponse.builder()
-                        .success(true)
-                        .msg(msg)
-                        .build());
+    public static CustomSuccessResponse<?> withCode(Integer... code) {
+        return CustomSuccessResponse.builder()
+                .success(true)
+                .statusCode(code[0])
+                .codes(code)
+                .build();
     }
 }

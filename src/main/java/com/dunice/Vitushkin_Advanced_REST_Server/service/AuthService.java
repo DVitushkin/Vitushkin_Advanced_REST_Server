@@ -36,7 +36,7 @@ public class AuthService {
 
         LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
-        return CustomSuccessResponse.data(loginUserDto);
+        return CustomSuccessResponse.withData(loginUserDto);
     }
 
     public CustomSuccessResponse<LoginUserDto> login(AuthDto request) {
@@ -50,6 +50,6 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
-        return CustomSuccessResponse.data(loginUserDto);
+        return CustomSuccessResponse.withData(loginUserDto);
     }
 }
