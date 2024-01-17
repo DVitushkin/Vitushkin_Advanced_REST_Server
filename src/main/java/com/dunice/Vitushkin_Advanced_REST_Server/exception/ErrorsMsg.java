@@ -8,7 +8,7 @@ public interface ErrorsMsg {
     String MUST_NOT_BE_NULL = "must not be null";
     String USER_NOT_FOUND = "Could not find user";
     String TOKEN_NOT_PROVIDED = "JWT token not provided";
-    String UNAUTHORISED = "unauthorised";
+    String UNAUTHORIZED = "unauthorised";
     String USER_EMAIL_NOT_NULL = "user email mustn't be null";
     String USER_PASSWORD_NOT_VALID = "user password must be more than 5 symbols";
     String USER_ROLE_NOT_NULL = "user role mustn't be null";
