@@ -38,9 +38,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfo(connectedUser));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CustomSuccessResponse<PublicUserView>> getUserById(
-            @Valid @Positive(message = ErrorsMsg.ID_MUST_BE_POSITIVE) @PathVariable("id") Long id
+            @Valid @Positive(message = ErrorsMsg.MAX_UPLOAD_SIZE_EXCEEDED)@PathVariable("id") Long id
     ) {
         return ResponseEntity.ok(userService.getUserById(id));
     }

@@ -66,7 +66,7 @@ public class ExceptionApiHandler {
     public ResponseEntity<CustomSuccessResponse<?>> handleHandlerMethodValidationExceptions(HandlerMethodValidationException ex) {
         return ResponseEntity
                 .badRequest()
-                .body(CustomSuccessResponse.withCode(ErrorsCode.ID_MUST_BE_POSITIVE.getStatusCode()));
+                .body(CustomSuccessResponse.withCode(ErrorsCode.MAX_UPLOAD_SIZE_EXCEEDED.getStatusCode()));
     }
 
     @ExceptionHandler(JwtException.class)
