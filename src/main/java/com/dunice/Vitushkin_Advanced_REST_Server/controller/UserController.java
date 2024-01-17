@@ -1,9 +1,11 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.controller;
 
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.service.UserService;
 import com.dunice.Vitushkin_Advanced_REST_Server.views.PublicUserView;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<CustomSuccessResponse<List<PublicUserView>>> getAllUsers(Principal connectedUser) {
+    public ResponseEntity<CustomSuccessResponse<List<PublicUserView>>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUserInfo());
     }
 
@@ -32,8 +34,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<CustomSuccessResponse<?>> getUserById(
-            Principal connectedUser,
-            @Valid @PathVariable("id") Long id
+            @Valid @Positive(message = ErrorsMsg.ID_MUST_BE_POSITIVE) @PathVariable("id") Long id
     ) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
