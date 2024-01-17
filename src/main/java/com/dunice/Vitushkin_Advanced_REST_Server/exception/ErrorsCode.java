@@ -11,7 +11,7 @@ public enum ErrorsCode {
     MUST_NOT_BE_NULL(4, "must not be null"),
     USER_NOT_FOUND(5, "Could not find user"),
     TOKEN_NOT_PROVIDED(6, "JWT token not provided"),
-    UNAUTHORISED(7, "unauthorised"),
+    UNAUTHORIZED(7, "unauthorised"),
     USER_EMAIL_NOT_NULL(8, "user email mustn't be null"),
     USER_PASSWORD_NOT_VALID(9, "user password must be more than 5 symbols"),
     USER_ROLE_NOT_NULL(10, "user role mustn't be null"),

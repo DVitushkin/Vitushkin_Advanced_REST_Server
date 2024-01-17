@@ -1,7 +1,8 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.controller;
 
-import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.LoginUserDto;
-import com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto.RegisterUserDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.AuthDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.LoginUserDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,12 @@ public class AuthController {
             @Validated @RequestBody RegisterUserDto request
     ) {
         return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<CustomSuccessResponse<LoginUserDto>> loginUser(
+            @Validated @RequestBody AuthDto request
+    ) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }

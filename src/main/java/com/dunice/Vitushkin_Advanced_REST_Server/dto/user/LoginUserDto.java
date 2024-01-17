@@ -1,4 +1,4 @@
-package com.dunice.Vitushkin_Advanced_REST_Server.dto.userDto;
+package com.dunice.Vitushkin_Advanced_REST_Server.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
