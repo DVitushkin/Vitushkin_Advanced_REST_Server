@@ -7,10 +7,12 @@ import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PutUserDtoResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.views.PublicUserView;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class UserService {
         return CustomSuccessResponse.withData(userView);
     }
 
+
     public CustomSuccessResponse<PutUserDtoResponse> putUserInfo(Principal connectedUser, PutUserDto request) {
         User user = getUserByEmail(connectedUser);
 
@@ -41,5 +44,16 @@ public class UserService {
 
         PutUserDtoResponse putUserDtoResponse = userMapper.userToPutUserResponse(user);
         return CustomSuccessResponse.withData(putUserDtoResponse);
+    }
+
+    public CustomSuccessResponse<List<PublicUserView>> getAllUserInfo() {
+        List<User> users = userRepository.findAll();
+        List<PublicUserView> userViewList = userMapper.listOfUsersToListOfPublicUserViews(users);
+        return CustomSuccessResponse.withData(userViewList);
+    }
+
+    public CustomSuccessResponse<PublicUserView> getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
     }
 }
