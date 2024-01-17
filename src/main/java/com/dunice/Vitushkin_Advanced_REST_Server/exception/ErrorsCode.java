@@ -17,6 +17,7 @@ public enum ErrorsCode {
     USER_ROLE_NOT_NULL(10, "user role mustn't be null"),
     USER_EMAIL_NOT_VALID(17, "user email must be a well-formed email address"),
     EXCEPTION_HANDLER_NOT_PROVIDED(21, "Exception handler not provided"),
+    MAX_UPLOAD_SIZE_EXCEEDED(23, "Maximum upload size exceeded"),
     USER_AVATAR_NOT_NULL(24, "user avatar mustn't be null"),
     PASSWORD_NOT_VALID(25, "password not valid"),
     PASSWORD_NOT_NULL(26, "user password mustn't be null"),

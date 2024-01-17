@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class ExceptionApiHandler {
@@ -52,6 +53,13 @@ public class ExceptionApiHandler {
         return ResponseEntity
                 .badRequest()
                 .body(CustomSuccessResponse.withCode(ErrorsCode.USER_ALREADY_EXISTS.getStatusCode()));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<CustomSuccessResponse<?>> handleNoResourceFoundExceptions(NoResourceFoundException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.MAX_UPLOAD_SIZE_EXCEEDED.getStatusCode()));
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)

@@ -14,6 +14,7 @@ public interface ErrorsMsg {
     String USER_ROLE_NOT_NULL = "user role mustn't be null";
     String USER_EMAIL_NOT_VALID = "user email must be a well-formed email address";
     String EXCEPTION_HANDLER_NOT_PROVIDED = "Exception handler not provided";
+    String MAX_UPLOAD_SIZE_EXCEEDED = "Maximum upload size exceeded";
     String USER_AVATAR_NOT_NULL = "user avatar mustn't be null";
     String PASSWORD_NOT_VALID = "password not valid";
     String PASSWORD_NOT_NULL = "user password mustn't be null";
