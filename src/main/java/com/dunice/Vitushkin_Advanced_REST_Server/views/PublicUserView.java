@@ -2,9 +2,10 @@ package com.dunice.Vitushkin_Advanced_REST_Server.views;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
-@Builder
+@Accessors(chain = true)
 public class PublicUserView {
     private String avatar;
     private String email;
