@@ -2,6 +2,7 @@ package com.dunice.Vitushkin_Advanced_REST_Server.controller;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.PutUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
+import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PutUserDtoResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.service.UserService;
@@ -51,5 +52,10 @@ public class UserController {
             @Valid @RequestBody PutUserDto request
     ) {
         return ResponseEntity.ok(userService.putUserInfo(connectedUser, request));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<BaseSuccessResponse> deleteUser(Principal connectedUser) {
+        return ResponseEntity.ok(userService.deleteUser(connectedUser));
     }
 }

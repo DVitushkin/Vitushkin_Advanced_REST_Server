@@ -4,6 +4,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.PutUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.UserMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
+import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PutUserDtoResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.views.PublicUserView;
@@ -55,5 +56,12 @@ public class UserService {
     public CustomSuccessResponse<PublicUserView> getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
+    }
+
+    public BaseSuccessResponse deleteUser(Principal connectedUser) {
+
+        User user = getUserByEmail(connectedUser);
+        userRepository.deleteById(user.getId());
+        return BaseSuccessResponse.ok();
     }
 }
