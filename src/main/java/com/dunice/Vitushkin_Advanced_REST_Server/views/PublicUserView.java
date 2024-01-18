@@ -1,6 +1,5 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.views;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
