@@ -9,6 +9,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,14 +41,15 @@ public class AuthService {
     }
 
     public CustomSuccessResponse<LoginUserDto> login(AuthDto request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(EntityNotFoundException::new);
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        user.getId(),
                         request.getPassword()
                 )
         );
 
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.withData(loginUserDto);
