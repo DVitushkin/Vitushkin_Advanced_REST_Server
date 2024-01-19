@@ -64,9 +64,8 @@ public class UserService {
         return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
     }
 
-    public BaseSuccessResponse deleteUser(Principal connectedUser) {
-
-        User user = getUserByEmail(connectedUser);
+    public BaseSuccessResponse deleteUser() {
+        User user = this.getUserFromContext();
         userRepository.deleteById(user.getId());
         return BaseSuccessResponse.ok();
     }

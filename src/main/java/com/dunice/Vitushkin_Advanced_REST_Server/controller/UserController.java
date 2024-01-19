@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<BaseSuccessResponse> deleteUser(Principal connectedUser) {
-        return ResponseEntity.ok(userService.deleteUser(connectedUser));
+    public ResponseEntity<BaseSuccessResponse> deleteUser() {
+        return ResponseEntity.ok(userService.deleteUser());
     }
 }
