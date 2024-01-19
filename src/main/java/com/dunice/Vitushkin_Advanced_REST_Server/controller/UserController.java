@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/user")
@@ -38,7 +39,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomSuccessResponse<PublicUserView>> getUserById(
-            @Valid @Positive(message = ErrorsMsg.MAX_UPLOAD_SIZE_EXCEEDED)@PathVariable("id") Long id
+            @Valid @Positive(message = ErrorsMsg.MAX_UPLOAD_SIZE_EXCEEDED)@PathVariable("id") UUID id
     ) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
