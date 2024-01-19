@@ -27,8 +27,8 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository
-                .findById(Long.parseLong(username))
+        return id -> userRepository
+                .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
     }
 

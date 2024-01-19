@@ -8,7 +8,7 @@ import lombok.Data;
 public class LoginUserDto {
     private String avatar;
     private String email;
-    private Long id;
+    private String  id;
     private String name;
     private String role;
     private String token;
