@@ -18,6 +18,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.UUID;
+
 @Configuration
 @EnableJpaAuditing
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public UserDetailsService userDetailsService() {
         return id -> userRepository
-                .findById(id)
+                .findById(UUID.fromString(id))
                 .orElseThrow(EntityNotFoundException::new);
     }
 

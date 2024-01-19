@@ -2,11 +2,9 @@ package com.dunice.Vitushkin_Advanced_REST_Server.models;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +28,7 @@ public class User implements UserDetails {
     @Id
     @UuidGenerator
     @Column(name = "id")
-    private String id;
+    private UUID id;
 
     @Column(name = "avatar")
     private String avatar;
@@ -62,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return id;
+        return id.toString();
     }
 
     @Override
