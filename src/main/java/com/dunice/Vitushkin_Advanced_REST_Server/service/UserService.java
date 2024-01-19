@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +60,7 @@ public class UserService {
         return CustomSuccessResponse.withData(userViewList);
     }
 
-    public CustomSuccessResponse<PublicUserView> getUserById(Long id) {
+    public CustomSuccessResponse<PublicUserView> getUserById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
     }
