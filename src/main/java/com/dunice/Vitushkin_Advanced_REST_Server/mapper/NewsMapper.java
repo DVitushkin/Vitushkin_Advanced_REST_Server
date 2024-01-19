@@ -4,7 +4,8 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.Tag;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
