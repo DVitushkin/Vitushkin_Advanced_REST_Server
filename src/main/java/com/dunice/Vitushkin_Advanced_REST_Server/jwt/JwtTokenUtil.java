@@ -23,7 +23,8 @@ public class JwtTokenUtil {
     private byte[] getSignInKey() {
         return Decoders.BASE64.decode(secretKey);
     }
-    public String extractUserName(String token) {
+
+    public String extractId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -50,7 +51,7 @@ public class JwtTokenUtil {
     }
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUserName(token);
+        final String username = extractId(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
