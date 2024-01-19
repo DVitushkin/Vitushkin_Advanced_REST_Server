@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -35,8 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<CustomSuccessResponse<PublicUserView>> getUserInfo(Principal connectedUser) {
-        return ResponseEntity.ok(userService.getUserInfo(connectedUser));
+    public ResponseEntity<CustomSuccessResponse<PublicUserView>> getUserInfo() {
+        return ResponseEntity.ok(userService.getUserInfo());
     }
 
     @GetMapping("/{id}")
@@ -48,10 +46,9 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<CustomSuccessResponse<PutUserDtoResponse>> putUserinfo(
-            Principal connectedUser,
             @Valid @RequestBody PutUserDto request
     ) {
-        return ResponseEntity.ok(userService.putUserInfo(connectedUser, request));
+        return ResponseEntity.ok(userService.putUserInfo(request));
     }
 
     @DeleteMapping

@@ -2,7 +2,6 @@ package com.dunice.Vitushkin_Advanced_REST_Server.config;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.logging.LoggerInterceptor;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import jakarta.persistence.EntityNotFoundException;
 
 @Configuration
 @EnableJpaAuditing
@@ -27,7 +27,9 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username).orElseThrow(EntityNotFoundException::new);
+        return username -> userRepository
+                .findById(Long.parseLong(username))
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Bean

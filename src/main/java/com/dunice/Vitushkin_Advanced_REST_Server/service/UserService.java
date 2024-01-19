@@ -8,12 +8,14 @@ import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PutUserDtoResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.views.PublicUserView;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,27 +23,31 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    private User getUserByEmail(Principal connectedUser) {
-        String email = connectedUser.getName();
-        return userRepository.findByEmail(email).orElseThrow();
+    private User getUserFromContext() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public CustomSuccessResponse<PublicUserView> getUserInfo(Principal connectedUser) {
-        String email = connectedUser.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+    public CustomSuccessResponse<PublicUserView> getUserInfo() {
+        User user = this.getUserFromContext();
 
         PublicUserView userView = userMapper.userToPublicUserView(user);
         return CustomSuccessResponse.withData(userView);
     }
 
 
-    public CustomSuccessResponse<PutUserDtoResponse> putUserInfo(Principal connectedUser, PutUserDto request) {
-        User user = getUserByEmail(connectedUser);
+    public CustomSuccessResponse<PutUserDtoResponse> putUserInfo( PutUserDto request) {
+        User user = this.getUserFromContext();
+        if (userRepository.existsUserByEmail(request.getEmail())
+                &&
+                !Objects.equals(user.getEmail(), request.getEmail())) {
+            throw new EntityExistsException();
+        }
 
         user.setAvatar(request.getAvatar())
                 .setEmail(request.getEmail())
                 .setName(request.getName())
                 .setRole(request.getRole());
+        userRepository.save(user);
 
         PutUserDtoResponse putUserDtoResponse = userMapper.userToPutUserResponse(user);
         return CustomSuccessResponse.withData(putUserDtoResponse);
