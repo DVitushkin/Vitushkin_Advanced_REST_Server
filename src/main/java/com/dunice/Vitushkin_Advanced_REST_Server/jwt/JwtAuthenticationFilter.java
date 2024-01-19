@@ -7,7 +7,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,10 +46,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             final String token = header.split(" ")[1].trim();
-            String userEmail = jwtTokenUtil.extractUserName(token);
+            String userId = jwtTokenUtil.extractId(token);
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
 
                 if (jwtTokenUtil.isTokenValid(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
