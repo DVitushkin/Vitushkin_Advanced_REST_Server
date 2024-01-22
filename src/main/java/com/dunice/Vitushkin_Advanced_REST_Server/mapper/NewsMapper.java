@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.TagDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.Tag;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
@@ -30,6 +31,8 @@ public abstract class NewsMapper {
         tag.setTitle(title);
         return tag;
     };
+
+    protected abstract TagDto tagToTagDto(Tag tag);
 
     protected List<Tag> setNews(List<String> l) {
         return l.stream().map(this::stringToTag).toList();
