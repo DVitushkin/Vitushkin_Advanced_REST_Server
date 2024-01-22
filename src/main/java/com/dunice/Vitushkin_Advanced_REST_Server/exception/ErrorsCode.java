@@ -15,6 +15,10 @@ public enum ErrorsCode {
     USER_EMAIL_NOT_NULL(8, "user email mustn't be null"),
     USER_PASSWORD_NOT_VALID(9, "user password must be more than 5 symbols"),
     USER_ROLE_NOT_NULL(10, "user role mustn't be null"),
+    NEWS_DESCRIPTION_SIZE_NOT_VALID(11, "News description size should be between 3 and 130"),
+    NEWS_DESCRIPTION_NOT_NULL(12, "News description mustn't be null"),
+    NEWS_TITLE_SIZE(13, "news title size not valid"),
+    NEWS_TITLE_NOT_NULL(14, "title has to be present"),
     USER_EMAIL_NOT_VALID(17, "user email must be a well-formed email address"),
     EXCEPTION_HANDLER_NOT_PROVIDED(21, "Exception handler not provided"),
     MAX_UPLOAD_SIZE_EXCEEDED(23, "Maximum upload size exceeded"),
@@ -24,8 +28,11 @@ public enum ErrorsCode {
     ID_MUST_BE_POSITIVE(29, "ID must be grater than zero"),
     USER_ALREADY_EXISTS(30, "User already exists"),
     USER_NAME_HAS_TO_BE_PRESENT(43, "User name has to be present"),
+    TAGS_NOT_VALID(44, "Tags invalid"),
+    NEWS_IMAGE_HAS_TO_BE_PRESENT(45, "Image mustn't be null"),
     USER_WITH_THIS_EMAIL_ALREADY_EXIST(46, "User with this email already exists"),
-    HTTP_MESSAGE_NOT_READABLE_EXCEPTION(47, "Http request not valid");
+    HTTP_MESSAGE_NOT_READABLE_EXCEPTION(47, "Http request not valid"),
+    NEWS_IMAGE_LENGTH(48, "Image link length should be between 3 and 130");
 
     private final Integer statusCode;
     private final String msg;
