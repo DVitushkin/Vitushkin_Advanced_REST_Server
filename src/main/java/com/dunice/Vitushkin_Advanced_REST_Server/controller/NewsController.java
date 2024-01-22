@@ -18,9 +18,7 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<CreateNewsSuccessResponse> createNews(
-            @Validated @RequestBody NewsDto request
-    ) {
-        return ResponseEntity.ok(newsService.createUser(request));
+    public ResponseEntity<CreateNewsSuccessResponse> createNews(@Validated @RequestBody NewsDto request) {
+        return ResponseEntity.ok(newsService.createNews(request));
     }
 }
