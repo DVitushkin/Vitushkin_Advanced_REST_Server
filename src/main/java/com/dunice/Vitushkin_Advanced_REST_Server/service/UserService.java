@@ -24,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    private User getUserFromContext() {
+    public User getUserFromContext() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
