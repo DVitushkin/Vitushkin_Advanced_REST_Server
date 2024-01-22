@@ -4,39 +4,49 @@ import java.util.List;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
-import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.TagDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
-import com.dunice.Vitushkin_Advanced_REST_Server.models.Tag;
-import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import com.dunice.Vitushkin_Advanced_REST_Server.service.UserService;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", uses = TagRepository.class)
-public abstract class NewsMapper {
-    @Autowired
-    protected TagRepository tagRepository;
+@Component
+@RequiredArgsConstructor
+public class NewsMapper {
+    private final TagMapper tagMapper;
+    private final UserService userService;
 
-    @Mapping(target = "tags", source = "tags")
-    public abstract News mapToEntity(NewsDto newsDto);
+    public News mapToEntity(NewsDto newsDto) {
+        News newNews = News
+                .builder()
+                .description(newsDto.getDescription())
+                .image(newsDto.getImage())
+                .title(newsDto.getTitle())
+                .build();
 
-    protected Tag stringToTag(String title) {
+        newNews.setTags(
+                newsDto.getTags()
+                        .stream()
+                        .map(tagMapper::maptoEntity)
+                        .toList()
+        );
 
-        Tag tag = tagRepository.findByTitle(title);
-        if (tag != null) {
-            return tag;
-        }
-        tag = new Tag();
-        tag.setTitle(title);
-        return tag;
-    };
-
-    protected abstract TagDto tagToTagDto(Tag tag);
-
-    protected List<Tag> setNews(List<String> l) {
-        return l.stream().map(this::stringToTag).toList();
+        newNews.setUser(userService.getUserFromContext());
+        return newNews;
     }
 
-    public abstract List<GetNewsOutDto> mapToListOfDto(List<News> news);
+    public GetNewsOutDto mapToDto(News news) {
+        return GetNewsOutDto.builder()
+                .description(news.getDescription())
+                .id(Math.toIntExact(news.getId()))
+                .image(news.getImage())
+                .tags(tagMapper.mapToListDto(news.getTags()))
+                .userId(String.valueOf(news.getUser().getId()))
+                .username(news.getUser().getUsername())
+                .build();
+    }
+
+    public List<GetNewsOutDto> mapToListOfDto(List<News> newsList) {
+        return newsList.stream().map(this::mapToDto).toList();
+    }
 }

@@ -9,7 +9,6 @@ import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessRespo
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.service.NewsService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,7 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<CreateNewsSuccessResponse> createNews(
-            @Validated @RequestBody NewsDto request
-    ) {
+    public ResponseEntity<CreateNewsSuccessResponse> createNews(@Validated @RequestBody NewsDto request) {
         return ResponseEntity.ok(newsService.createNews(request));
     }
 
