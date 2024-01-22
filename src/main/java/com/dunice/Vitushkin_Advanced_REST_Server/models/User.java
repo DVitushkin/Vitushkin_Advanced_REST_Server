@@ -30,7 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
     @Id
     @UuidGenerator
-    @Column(name = "id")
+    @Column(name = "user_id")
     private UUID id;
 
     @Column(name = "avatar")

@@ -1,10 +1,13 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Data
@@ -18,8 +21,4 @@ public class Tag {
 
     @Column(name = "title")
     private String title;
-
-    @ManyToMany(mappedBy = "tags")
-    @Column(name = "news")
-    private List<News> news;
 }
