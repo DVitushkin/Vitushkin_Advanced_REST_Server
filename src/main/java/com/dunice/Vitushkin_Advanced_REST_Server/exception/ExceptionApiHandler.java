@@ -1,10 +1,13 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.exception;
 
+import java.util.List;
+
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,17 +20,18 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class ExceptionApiHandler {
 
-    private static Integer[] parseValidateErrors(MethodArgumentNotValidException ex) {
-        return ex.getBindingResult()
-                .getAllErrors()
-                .stream()
+    private static Integer[] parseValidateErrors(List<? extends MessageSourceResolvable> ex) {
+        return ex.stream()
                 .map(objectError -> ErrorsCode.getErrCodeByErrMsg(objectError.getDefaultMessage()))
                 .toArray(Integer[]::new);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Integer[] codes = parseValidateErrors(ex);
+        Integer[] codes = parseValidateErrors(ex
+                .getBindingResult()
+                .getAllErrors()
+        );
         return ResponseEntity
                 .badRequest()
                 .body(CustomSuccessResponse.withCode(codes));
@@ -64,9 +68,10 @@ public class ExceptionApiHandler {
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<CustomSuccessResponse<?>> handleHandlerMethodValidationExceptions(HandlerMethodValidationException ex) {
+        Integer[] codes = parseValidateErrors(ex.getAllErrors());
         return ResponseEntity
                 .badRequest()
-                .body(CustomSuccessResponse.withCode(ErrorsCode.MAX_UPLOAD_SIZE_EXCEEDED.getStatusCode()));
+                .body(CustomSuccessResponse.withCode(codes));
     }
 
     @ExceptionHandler(JwtException.class)
