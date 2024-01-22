@@ -22,7 +22,7 @@ public enum ErrorsCode {
     USER_EMAIL_NOT_VALID(17, "user email must be a well-formed email address"),
     PAGE_SIZE_NOT_VALID(18, "news page must be greater or equal 1"),
     PER_PAGE_MIN_NOT_VALID(19, "perPage must be greater or equal 1"),
-    PER_PAGE_MAX_NOT_VALID(19, "perPage must be less or equal 100"),
+    PER_PAGE_MAX_NOT_VALID(20, "perPage must be less or equal 100"),
     EXCEPTION_HANDLER_NOT_PROVIDED(21, "Exception handler not provided"),
     MAX_UPLOAD_SIZE_EXCEEDED(23, "Maximum upload size exceeded"),
     USER_AVATAR_NOT_NULL(24, "user avatar mustn't be null"),
