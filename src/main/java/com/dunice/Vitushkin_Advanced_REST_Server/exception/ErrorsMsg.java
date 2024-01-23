@@ -17,6 +17,9 @@ public interface ErrorsMsg {
     String NEWS_TITLE_SIZE = "news title size not valid";
     String NEWS_TITLE_NOT_NULL = "title has to be present";
     String USER_EMAIL_NOT_VALID = "user email must be a well-formed email address";
+    String PAGE_SIZE_NOT_VALID = "news page must be greater or equal 1";
+    String PER_PAGE_MIN_NOT_VALID = "perPage must be greater or equal 1";
+    String PER_PAGE_MAX_NOT_VALID = "perPage must be less or equal 100";
     String EXCEPTION_HANDLER_NOT_PROVIDED = "Exception handler not provided";
     String MAX_UPLOAD_SIZE_EXCEEDED = "Maximum upload size exceeded";
     String USER_AVATAR_NOT_NULL = "user avatar mustn't be null";

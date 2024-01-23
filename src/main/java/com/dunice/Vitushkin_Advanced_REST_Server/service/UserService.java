@@ -1,5 +1,9 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.service;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.PutUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.UserMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
@@ -11,12 +15,9 @@ import com.dunice.Vitushkin_Advanced_REST_Server.views.PublicUserView;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class UserService {
     }
 
 
-    public CustomSuccessResponse<PutUserDtoResponse> putUserInfo( PutUserDto request) {
+    public CustomSuccessResponse<PutUserDtoResponse> putUserInfo(PutUserDto request) {
         User user = this.getUserFromContext();
         if (userRepository.existsUserByEmail(request.getEmail())
                 &&
