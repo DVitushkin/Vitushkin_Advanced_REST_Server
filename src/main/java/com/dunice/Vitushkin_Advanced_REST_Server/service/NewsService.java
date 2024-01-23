@@ -1,6 +1,7 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
@@ -17,6 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import static com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsSpec.authorEqualSpec;
+import static com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsSpec.descriptionInSpec;
+import static com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsSpec.tagsInSpec;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 
 @Service
@@ -39,7 +45,7 @@ public class NewsService {
         if (userId == null) {
             news = newsRepository.findAll(PageRequest.of(page - 1, perPage));
         } else {
-            news = newsRepository.findAllByUserId(userId, PageRequest.of(page -1, perPage));
+            news = newsRepository.findAllByUserId(userId, PageRequest.of(page - 1, perPage));
         }
         List<GetNewsOutDto> content = newsMapper.mapToListOfDto(news.getContent());
 
@@ -48,5 +54,25 @@ public class NewsService {
                 .numberOfElements(news.getNumberOfElements())
                 .build()
         );
+    }
+
+    public PageableResponse<List<GetNewsOutDto>> getCertainNews(
+            Integer page,
+            Integer perPage,
+            Optional<String> author,
+            Optional<String> keywords,
+            Optional<List<String>> tags) {
+        Page<News> certainNews = newsRepository.findAll(
+                where(authorEqualSpec(author)
+                        .and(descriptionInSpec(keywords))
+                        .and(tagsInSpec(tags))),
+                PageRequest.of(page - 1, perPage)
+        );
+
+        List<GetNewsOutDto> content = newsMapper.mapToListOfDto(certainNews.getContent());
+        return  PageableResponse.<List<GetNewsOutDto>>builder()
+                .content(content)
+                .numberOfElements(certainNews.getNumberOfElements())
+                .build();
     }
 }
