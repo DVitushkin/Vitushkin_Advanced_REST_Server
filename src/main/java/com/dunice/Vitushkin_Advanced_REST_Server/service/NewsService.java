@@ -1,12 +1,14 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.NewsMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
+import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsDao;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
@@ -18,11 +20,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
 public class NewsService {
     private final NewsRepository newsRepository;
+    private final NewsDao newsDao;
     private final NewsMapper newsMapper;
 
     public CreateNewsSuccessResponse createNews(NewsDto request) {
@@ -39,14 +41,29 @@ public class NewsService {
         if (userId == null) {
             news = newsRepository.findAll(PageRequest.of(page - 1, perPage));
         } else {
-            news = newsRepository.findAllByUserId(userId, PageRequest.of(page -1, perPage));
+            news = newsRepository.findAllByUserId(userId, PageRequest.of(page - 1, perPage));
         }
         List<GetNewsOutDto> content = newsMapper.mapToListOfDto(news.getContent());
 
         return CustomSuccessResponse.withData(PageableResponse.<List<GetNewsOutDto>>builder()
                 .content(content)
-                .numberOfElements(news.getNumberOfElements())
+                .numberOfElements(news.getTotalElements())
                 .build()
         );
+    }
+
+    public PageableResponse<List<GetNewsOutDto>> getCertainNews(
+            Integer page,
+            Integer perPage,
+            Optional<String> author,
+            Optional<String> keywords,
+            Optional<List<String>> tags) {
+        Page<News> certainNews = newsDao.findAllByParameters(author, keywords, tags, PageRequest.of(page - 1, perPage));
+
+        List<GetNewsOutDto> content = newsMapper.mapToListOfDto(certainNews.getContent());
+        return  PageableResponse.<List<GetNewsOutDto>>builder()
+                .content(content)
+                .numberOfElements(certainNews.getTotalElements())
+                .build();
     }
 }

@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/v1/news").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/news/find").permitAll()
                 )
                 .authorizeHttpRequests(req -> req.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class PageableResponse<T> {
     private T content;
-    private Integer numberOfElements;
+    private Long numberOfElements;
 }
