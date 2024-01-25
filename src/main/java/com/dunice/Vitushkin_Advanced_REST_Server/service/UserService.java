@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.PutUserDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.UserMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
@@ -62,7 +63,7 @@ public class UserService {
     }
 
     public CustomSuccessResponse<PublicUserView> getUserById(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.USER_NOT_FOUND));
         return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
     }
 

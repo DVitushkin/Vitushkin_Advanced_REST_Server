@@ -3,6 +3,7 @@ package com.dunice.Vitushkin_Advanced_REST_Server.service;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.AuthDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.LoginUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.jwt.JwtTokenUtil;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.UserMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
@@ -41,7 +42,7 @@ public class AuthService {
     }
 
     public CustomSuccessResponse<LoginUserDto> login(AuthDto request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.USER_NOT_FOUND));
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
