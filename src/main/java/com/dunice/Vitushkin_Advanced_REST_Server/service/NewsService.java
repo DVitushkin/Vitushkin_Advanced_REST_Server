@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.NewsMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.TagMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
@@ -77,7 +78,7 @@ public class NewsService {
 
     @Transactional
     public BaseSuccessResponse updateNewsById(Long id, NewsDto request) {
-        News newsToUpdate = newsRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        News newsToUpdate = newsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.NEWS_NOT_FOUND));
 
         List<Tag> removedTags = newsToUpdate
                 .getTags()
@@ -95,6 +96,17 @@ public class NewsService {
                 .filter(tag -> newsRepository.countAllByTags(tag) == 0)
                 .forEach(tagRepository::delete);
 
+
+
+        return BaseSuccessResponse.ok();
+    }
+
+    public BaseSuccessResponse deleteNewsById(Long id) {
+        if (!newsRepository.existsById(id)) {
+            throw new EntityNotFoundException(ErrorsMsg.NEWS_NOT_FOUND);
+        }
+
+        newsRepository.deleteById(id);
         return BaseSuccessResponse.ok();
     }
 }
