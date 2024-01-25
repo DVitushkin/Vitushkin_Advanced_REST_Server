@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
+import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
@@ -14,6 +15,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.service.NewsService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,5 +84,17 @@ public class NewsController {
             @RequestParam("tags") Optional<List<String>> tags
             ) {
         return ResponseEntity.ok(newsService.getCertainNews(page, perPage, author, keywords, tags));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseSuccessResponse> updateNewsById(
+            @PathVariable("id")
+            @Positive(message = ErrorsMsg.ID_MUST_BE_POSITIVE)
+            Long id,
+            @Validated
+            @RequestBody
+            NewsDto request
+    ) {
+        return ResponseEntity.ok(newsService.updateNewsById(id, request));
     }
 }
