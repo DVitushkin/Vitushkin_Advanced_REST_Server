@@ -26,6 +26,7 @@ public interface ErrorsMsg {
     String NEWS_IMAGE_LENGTH = "Image link length should be between 3 and 130";
     String PASSWORD_NOT_VALID = "password not valid";
     String PASSWORD_NOT_NULL = "user password mustn't be null";
+    String NEWS_NOT_FOUND = "news not found";
     String ID_MUST_BE_POSITIVE = "ID must be grater than zero";
     String USER_ALREADY_EXISTS = "User already exists";
     String USER_NAME_HAS_TO_BE_PRESENT = "User name has to be present";
