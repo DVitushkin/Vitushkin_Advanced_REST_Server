@@ -1,10 +1,10 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.response;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Builder
-@Data
+@Getter
+@SuperBuilder
 public class BaseSuccessResponse {
     private Integer statusCode;
     private Boolean success;

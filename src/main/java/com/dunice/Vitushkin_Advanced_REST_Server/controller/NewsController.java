@@ -12,6 +12,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessRespo
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.service.NewsService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -92,7 +93,7 @@ public class NewsController {
             @PathVariable("id")
             @Positive(message = ErrorsMsg.ID_MUST_BE_POSITIVE)
             Long id,
-            @Validated
+            @Valid
             @RequestBody
             NewsDto request
     ) {
