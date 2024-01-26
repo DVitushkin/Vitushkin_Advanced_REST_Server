@@ -1,6 +1,7 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
@@ -28,7 +29,7 @@ public class NewsMapper {
                 newsDto.getTags()
                         .stream()
                         .map(tagMapper::maptoEntity)
-                        .toList()
+                        .collect(Collectors.toList())
         );
 
         newNews.setUser(userService.getUserFromContext());
@@ -47,6 +48,6 @@ public class NewsMapper {
     }
 
     public List<GetNewsOutDto> mapToListOfDto(List<News> newsList) {
-        return newsList.stream().map(this::mapToDto).toList();
+        return newsList.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 }

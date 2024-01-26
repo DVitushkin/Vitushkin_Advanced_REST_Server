@@ -7,13 +7,19 @@ import java.util.UUID;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.NewsMapper;
+import com.dunice.Vitushkin_Advanced_REST_Server.mapper.TagMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
+import com.dunice.Vitushkin_Advanced_REST_Server.models.Tag;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsDao;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsRepository;
+import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
+import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
 import jakarta.annotation.Nullable;
+import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -24,8 +30,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NewsService {
     private final NewsRepository newsRepository;
+    private final TagRepository tagRepository;
     private final NewsDao newsDao;
     private final NewsMapper newsMapper;
+    private final TagMapper tagMapper;
 
     public CreateNewsSuccessResponse createNews(NewsDto request) {
         News newNews = newsMapper.mapToEntity(request);
@@ -65,5 +73,28 @@ public class NewsService {
                 .content(content)
                 .numberOfElements(certainNews.getTotalElements())
                 .build();
+    }
+
+    @Transactional
+    public BaseSuccessResponse updateNewsById(Long id, NewsDto request) {
+        News newsToUpdate = newsRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        List<Tag> removedTags = newsToUpdate
+                .getTags()
+                .stream()
+                .filter(tag -> !request.getTags().contains(tag.getTitle()))
+                .toList();
+
+        newsToUpdate.setDescription(request.getDescription())
+                .setImage(request.getImage())
+                .setTitle(request.getTitle())
+                .setTags(tagMapper.mapToListEntity(request.getTags()));
+
+        removedTags
+                .stream()
+                .filter(tag -> newsRepository.countAllByTags(tag) == 0)
+                .forEach(tagRepository::delete);
+
+        return BaseSuccessResponse.ok();
     }
 }
