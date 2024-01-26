@@ -100,7 +100,7 @@ public class NewsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseSuccessResponse> deleteNewsById(@PathVariable("id") Long id) {
+    public ResponseEntity<BaseSuccessResponse> deleteNewsById(@Positive(message = ErrorsMsg.ID_MUST_BE_POSITIVE) @PathVariable("id") Long id) {
         return ResponseEntity.ok(newsService.deleteNewsById(id));
     }
 }
