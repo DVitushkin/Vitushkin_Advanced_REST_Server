@@ -1,19 +1,20 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.response;
 
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Setter
-@Accessors(chain = true)
+@Getter
+@SuperBuilder
 public class CreateNewsSuccessResponse extends BaseSuccessResponse{
     private Long id;
 
-    CreateNewsSuccessResponse(Integer statusCode, Boolean success) {
-        super(statusCode, success);
-    }
-
     public static CreateNewsSuccessResponse ok(Long id) {
-        return new CreateNewsSuccessResponse(1, true).setId(id);
+        return CreateNewsSuccessResponse
+                .builder()
+                .id(id)
+                .statusCode(1)
+                .success(true)
+                .build();
     }
 
 }
