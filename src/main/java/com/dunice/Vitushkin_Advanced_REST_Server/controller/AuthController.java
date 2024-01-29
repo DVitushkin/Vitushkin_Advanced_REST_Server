@@ -4,7 +4,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.AuthDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.LoginUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
-import com.dunice.Vitushkin_Advanced_REST_Server.service.AuthService;
+import com.dunice.Vitushkin_Advanced_REST_Server.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;

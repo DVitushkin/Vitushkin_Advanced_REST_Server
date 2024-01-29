@@ -1,4 +1,4 @@
-package com.dunice.Vitushkin_Advanced_REST_Server.service;
+package com.dunice.Vitushkin_Advanced_REST_Server.service.auth;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.AuthDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.LoginUserDto;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserMapper userMapper;

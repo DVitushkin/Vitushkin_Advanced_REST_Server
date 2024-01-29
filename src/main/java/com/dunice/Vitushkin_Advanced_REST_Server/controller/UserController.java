@@ -2,10 +2,11 @@ package com.dunice.Vitushkin_Advanced_REST_Server.controller;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.PutUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
+import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PutUserDtoResponse;
-import com.dunice.Vitushkin_Advanced_REST_Server.service.UserService;
+import com.dunice.Vitushkin_Advanced_REST_Server.service.user.UserService;
 import com.dunice.Vitushkin_Advanced_REST_Server.views.PublicUserView;
 import jakarta.validation.Valid;
 
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.validation.constraints.Positive;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +38,8 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<CustomSuccessResponse<PublicUserView>> getUserInfo() {
-        return ResponseEntity.ok(userService.getUserInfo());
+    public ResponseEntity<CustomSuccessResponse<PublicUserView>> getUserInfo(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(userService.getUserInfo(user));
     }
 
     @GetMapping("/{id}")
@@ -49,13 +51,14 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<CustomSuccessResponse<PutUserDtoResponse>> putUserinfo(
+            @AuthenticationPrincipal User user,
             @Valid @RequestBody PutUserDto request
     ) {
-        return ResponseEntity.ok(userService.putUserInfo(request));
+        return ResponseEntity.ok(userService.putUserInfo(user, request));
     }
 
     @DeleteMapping
-    public ResponseEntity<BaseSuccessResponse> deleteUser() {
-        return ResponseEntity.ok(userService.deleteUser());
+    public ResponseEntity<BaseSuccessResponse> deleteUser(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(userService.deleteUser(user));
     }
 }

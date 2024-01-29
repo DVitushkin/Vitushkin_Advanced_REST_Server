@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
-import com.dunice.Vitushkin_Advanced_REST_Server.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NewsMapper {
     private final TagMapper tagMapper;
-    private final UserService userService;
 
     public News mapToEntity(NewsDto newsDto) {
         News newNews = News
@@ -32,7 +30,6 @@ public class NewsMapper {
                         .collect(Collectors.toList())
         );
 
-        newNews.setUser(userService.getUserFromContext());
         return newNews;
     }
 
