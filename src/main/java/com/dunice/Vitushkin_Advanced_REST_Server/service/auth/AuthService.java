@@ -6,9 +6,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 
 public interface AuthService {
-    public CustomSuccessResponse<LoginUserDto> register(RegisterUserDto request);
+    CustomSuccessResponse<LoginUserDto> register(RegisterUserDto request);
 
-    public CustomSuccessResponse<LoginUserDto> login(AuthDto request);
-
-
+    CustomSuccessResponse<LoginUserDto> login(AuthDto request);
 }

@@ -16,13 +16,14 @@ import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsDao;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
+import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
 import jakarta.annotation.Nullable;
-import jakarta.transaction.Transactional;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -34,17 +35,26 @@ import org.springframework.stereotype.Service;
 public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
+    private final UserRepository userRepository;
     private final NewsDao newsDao;
     private final NewsMapper newsMapper;
     private final TagMapper tagMapper;
 
-    public CreateNewsSuccessResponse createNews(User user, NewsDto request) {
+    @Override
+    public CreateNewsSuccessResponse createNews(Principal principal, NewsDto request) {
+        Optional<User> user = userRepository.findById(UUID.fromString(principal.getName()));
+        if (user.isEmpty()) {
+            throw new EntityNotFoundException(ErrorsMsg.USER_NOT_FOUND);
+        }
+        User userEntity = user.get();
+
         News newNews = newsMapper.mapToEntity(request);
-        newNews.setUser(user);
+        newNews.setUser(userEntity);
         newsRepository.save(newNews);
         return CreateNewsSuccessResponse.ok(newNews.getId());
     }
 
+    @Override
     public CustomSuccessResponse<PageableResponse<List<GetNewsOutDto>>> getPaginatedNews(
             Integer page,
             Integer perPage,
@@ -64,6 +74,7 @@ public class NewsServiceImpl implements NewsService {
         );
     }
 
+    @Override
     public PageableResponse<List<GetNewsOutDto>> getCertainNews(
             Integer page,
             Integer perPage,
@@ -79,6 +90,7 @@ public class NewsServiceImpl implements NewsService {
                 .build();
     }
 
+    @Override
     @Transactional
     public BaseSuccessResponse updateNewsById(Long id, NewsDto request) {
         News newsToUpdate = newsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.NEWS_NOT_FOUND));
@@ -104,6 +116,7 @@ public class NewsServiceImpl implements NewsService {
         return BaseSuccessResponse.ok();
     }
 
+    @Override
     public BaseSuccessResponse deleteNewsById(Long id) {
         if (!newsRepository.existsById(id)) {
             throw new EntityNotFoundException(ErrorsMsg.NEWS_NOT_FOUND);
