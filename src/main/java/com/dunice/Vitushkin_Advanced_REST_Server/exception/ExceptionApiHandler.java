@@ -13,6 +13,7 @@ import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -81,6 +82,13 @@ public class ExceptionApiHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(CustomSuccessResponse.withCode(ErrorsCode.UNAUTHORIZED.getStatusCode()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<CustomSuccessResponse<?>> handleBadCredentialsExceptions(BadCredentialsException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.PASSWORD_NOT_VALID.getStatusCode()));
     }
 
     @ExceptionHandler(FileStorageException.class)
