@@ -7,11 +7,12 @@ import java.util.UUID;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
+import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
-import com.dunice.Vitushkin_Advanced_REST_Server.service.NewsService;
+import com.dunice.Vitushkin_Advanced_REST_Server.service.news.NewsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 @RestController
 @RequestMapping("/v1/news")
 @RequiredArgsConstructor
@@ -39,8 +42,9 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<CreateNewsSuccessResponse> createNews(@Validated @RequestBody NewsDto request) {
-        return ResponseEntity.ok(newsService.createNews(request));
+    public ResponseEntity<CreateNewsSuccessResponse> createNews(@AuthenticationPrincipal User user,
+                                                                @Validated @RequestBody NewsDto request) {
+        return ResponseEntity.ok(newsService.createNews(user, request));
     }
 
     @GetMapping

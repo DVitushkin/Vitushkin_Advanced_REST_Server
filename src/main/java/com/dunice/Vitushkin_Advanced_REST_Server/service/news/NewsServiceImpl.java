@@ -1,5 +1,6 @@
-package com.dunice.Vitushkin_Advanced_REST_Server.service;
+package com.dunice.Vitushkin_Advanced_REST_Server.service.news;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.mapper.NewsMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.TagMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.Tag;
+import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsDao;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
@@ -29,15 +31,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class NewsService {
+public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
     private final NewsDao newsDao;
     private final NewsMapper newsMapper;
     private final TagMapper tagMapper;
 
-    public CreateNewsSuccessResponse createNews(NewsDto request) {
+    public CreateNewsSuccessResponse createNews(User user, NewsDto request) {
         News newNews = newsMapper.mapToEntity(request);
+        newNews.setUser(user);
         newsRepository.save(newNews);
         return CreateNewsSuccessResponse.ok(newNews.getId());
     }
