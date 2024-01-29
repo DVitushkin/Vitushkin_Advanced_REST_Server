@@ -1,5 +1,6 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -7,7 +8,6 @@ import java.util.UUID;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.GetNewsOutDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.news.NewsDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
-import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
@@ -32,8 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 @RestController
 @RequestMapping("/v1/news")
 @RequiredArgsConstructor
@@ -42,9 +40,9 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<CreateNewsSuccessResponse> createNews(@AuthenticationPrincipal User user,
+    public ResponseEntity<CreateNewsSuccessResponse> createNews(Principal principal,
                                                                 @Validated @RequestBody NewsDto request) {
-        return ResponseEntity.ok(newsService.createNews(user, request));
+        return ResponseEntity.ok(newsService.createNews(principal, request));
     }
 
     @GetMapping

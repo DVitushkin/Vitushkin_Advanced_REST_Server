@@ -23,24 +23,25 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public CustomSuccessResponse<LoginUserDto> register(RegisterUserDto request) {
         if (userRepository.existsUserByEmail(request.getEmail())) {
             throw new EntityExistsException();
         }
 
-        User user = userMapper.registerUserDtoToUser(request);
+        User user =  UserMapper.INSTANCE.registerUserDtoToUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
+        LoginUserDto loginUserDto =  UserMapper.INSTANCE.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.withData(loginUserDto);
     }
 
+    @Override
     public CustomSuccessResponse<LoginUserDto> login(AuthDto request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.USER_NOT_FOUND));
 
@@ -51,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
+        LoginUserDto loginUserDto =  UserMapper.INSTANCE.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.withData(loginUserDto);
     }
