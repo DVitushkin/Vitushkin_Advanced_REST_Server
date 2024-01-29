@@ -1,4 +1,4 @@
-package com.dunice.Vitushkin_Advanced_REST_Server.service;
+package com.dunice.Vitushkin_Advanced_REST_Server.service.file;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.storage.fileStorage.FileStorageImpl;
@@ -12,8 +12,10 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class FileService {
+public class FileServiceImpl implements FileService {
     private final FileStorageImpl fileStorage;
+
+    @Override
     public CustomSuccessResponse<String> uploadFile(MultipartFile file){
         fileStorage.save(file);
         String downloadUrl = ServletUriComponentsBuilder
@@ -24,7 +26,7 @@ public class FileService {
                 .toUriString();
         return CustomSuccessResponse.withData(downloadUrl);
     }
-
+    @Override
     public UrlResource loadFileByName(String fileName) {
         return fileStorage.load(fileName);
 
