@@ -49,7 +49,7 @@ public class ExceptionApiHandler {
     public ResponseEntity<CustomSuccessResponse<?>> handleEntityNotFoundExceptions(EntityNotFoundException ex) {
         return ResponseEntity
                 .badRequest()
-                .body(CustomSuccessResponse.withCode(ErrorsCode.USER_NOT_FOUND.getStatusCode()));
+                .body(CustomSuccessResponse.withCode(ErrorsCode.getErrCodeByErrMsg(ex.getMessage())));
     }
 
     @ExceptionHandler(EntityExistsException.class)

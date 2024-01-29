@@ -1,8 +1,9 @@
-package com.dunice.Vitushkin_Advanced_REST_Server.service;
+package com.dunice.Vitushkin_Advanced_REST_Server.service.auth;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.AuthDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.LoginUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.jwt.JwtTokenUtil;
 import com.dunice.Vitushkin_Advanced_REST_Server.mapper.UserMapper;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
@@ -19,29 +20,30 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public CustomSuccessResponse<LoginUserDto> register(RegisterUserDto request) {
         if (userRepository.existsUserByEmail(request.getEmail())) {
             throw new EntityExistsException();
         }
 
-        User user = userMapper.registerUserDtoToUser(request);
+        User user =  UserMapper.INSTANCE.registerUserDtoToUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
+        LoginUserDto loginUserDto =  UserMapper.INSTANCE.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.withData(loginUserDto);
     }
 
+    @Override
     public CustomSuccessResponse<LoginUserDto> login(AuthDto request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.USER_NOT_FOUND));
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -50,7 +52,7 @@ public class AuthService {
                 )
         );
 
-        LoginUserDto loginUserDto = userMapper.userToLoginUserDto(user);
+        LoginUserDto loginUserDto =  UserMapper.INSTANCE.userToLoginUserDto(user);
         loginUserDto.setToken(jwtTokenUtil.generateToken(user));
         return CustomSuccessResponse.withData(loginUserDto);
     }

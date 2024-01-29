@@ -28,6 +28,7 @@ public enum ErrorsCode {
     USER_AVATAR_NOT_NULL(24, "user avatar mustn't be null"),
     PASSWORD_NOT_VALID(25, "password not valid"),
     PASSWORD_NOT_NULL(26, "user password mustn't be null"),
+    NEWS_NOT_FOUND(27, "news not found"),
     ID_MUST_BE_POSITIVE(29, "ID must be grater than zero"),
     USER_ALREADY_EXISTS(30, "User already exists"),
     USER_NAME_HAS_TO_BE_PRESENT(43, "User name has to be present"),

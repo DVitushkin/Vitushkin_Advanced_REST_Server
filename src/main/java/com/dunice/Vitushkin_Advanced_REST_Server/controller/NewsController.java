@@ -1,5 +1,6 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import com.dunice.Vitushkin_Advanced_REST_Server.response.BaseSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CreateNewsSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
 import com.dunice.Vitushkin_Advanced_REST_Server.response.PageableResponse;
-import com.dunice.Vitushkin_Advanced_REST_Server.service.NewsService;
+import com.dunice.Vitushkin_Advanced_REST_Server.service.news.NewsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,8 +40,9 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<CreateNewsSuccessResponse> createNews(@Validated @RequestBody NewsDto request) {
-        return ResponseEntity.ok(newsService.createNews(request));
+    public ResponseEntity<CreateNewsSuccessResponse> createNews(Principal principal,
+                                                                @Validated @RequestBody NewsDto request) {
+        return ResponseEntity.ok(newsService.createNews(principal, request));
     }
 
     @GetMapping
@@ -97,5 +100,10 @@ public class NewsController {
             NewsDto request
     ) {
         return ResponseEntity.ok(newsService.updateNewsById(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseSuccessResponse> deleteNewsById(@Positive(message = ErrorsMsg.ID_MUST_BE_POSITIVE) @PathVariable("id") Long id) {
+        return ResponseEntity.ok(newsService.deleteNewsById(id));
     }
 }

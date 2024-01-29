@@ -1,5 +1,7 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.config;
 
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsCode;
+import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.logging.LoggerInterceptor;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class AppConfig implements WebMvcConfigurer {
     public UserDetailsService userDetailsService() {
         return id -> userRepository
                 .findById(UUID.fromString(id))
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorsMsg.USER_NOT_FOUND));
     }
 
     @Bean
