@@ -153,7 +153,7 @@ public class AuthServiceImplTest {
 
         Mockito
                 .when(userRepository.findByEmail(authDto.getEmail()))
-                .thenThrow(EntityNotFoundException.class);
+                .thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> authService.login(authDto));
     }
