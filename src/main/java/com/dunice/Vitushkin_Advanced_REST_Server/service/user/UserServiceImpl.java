@@ -1,4 +1,4 @@
-package com.dunice.Vitushkin_Advanced_REST_Server.service;
+package com.dunice.Vitushkin_Advanced_REST_Server.service.user;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,29 +17,21 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public User getUserFromContext() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    public CustomSuccessResponse<PublicUserView> getUserInfo() {
-        User user = this.getUserFromContext();
-
+    public CustomSuccessResponse<PublicUserView> getUserInfo(User user) {
         PublicUserView userView = userMapper.userToPublicUserView(user);
         return CustomSuccessResponse.withData(userView);
     }
 
 
-    public CustomSuccessResponse<PutUserDtoResponse> putUserInfo(PutUserDto request) {
-        User user = this.getUserFromContext();
+    public CustomSuccessResponse<PutUserDtoResponse> putUserInfo(User user, PutUserDto request) {
         if (userRepository.existsUserByEmail(request.getEmail())
                 &&
                 !Objects.equals(user.getEmail(), request.getEmail())) {
@@ -67,8 +59,7 @@ public class UserService {
         return CustomSuccessResponse.withData(userMapper.userToPublicUserView(user));
     }
 
-    public BaseSuccessResponse deleteUser() {
-        User user = this.getUserFromContext();
+    public BaseSuccessResponse deleteUser(User user) {
         userRepository.deleteById(user.getId());
         return BaseSuccessResponse.ok();
     }
