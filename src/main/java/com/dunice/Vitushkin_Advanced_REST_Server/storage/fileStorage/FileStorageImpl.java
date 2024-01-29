@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Component
 public class FileStorageImpl implements FileStorage{
@@ -32,7 +33,7 @@ public class FileStorageImpl implements FileStorage{
                 .toAbsolutePath()
                 .resolve(Paths.get(file.getOriginalFilename()).normalize());
         try {
-            Files.copy(file.getInputStream(), destinationFile);
+            Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
         }catch (IOException ex){
             throw new FileStorageException(ex.getMessage());
         }

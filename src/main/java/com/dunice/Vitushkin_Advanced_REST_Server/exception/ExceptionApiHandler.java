@@ -3,10 +3,12 @@ package com.dunice.Vitushkin_Advanced_REST_Server.exception;
 import java.util.List;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.response.CustomSuccessResponse;
+import com.dunice.Vitushkin_Advanced_REST_Server.storage.fileStorage.FileStorageException;
 import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,5 +81,19 @@ public class ExceptionApiHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(CustomSuccessResponse.withCode(ErrorsCode.UNAUTHORIZED.getStatusCode()));
+    }
+
+    @ExceptionHandler(FileStorageException.class)
+    public ResponseEntity<CustomSuccessResponse<?>> handleFileStorageExceptions(FileStorageException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.EXCEPTION_HANDLER_NOT_PROVIDED.getStatusCode()));
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<CustomSuccessResponse<?>> handleFileUploadExceptions(FileUploadException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(CustomSuccessResponse.withCode(ErrorsCode.UNKNOWN.getStatusCode()));
     }
 }
