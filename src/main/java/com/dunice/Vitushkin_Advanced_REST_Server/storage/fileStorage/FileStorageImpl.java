@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 @Component
 public class FileStorageImpl implements FileStorage{
@@ -31,7 +32,7 @@ public class FileStorageImpl implements FileStorage{
     public void save(MultipartFile file) {
         Path destinationFile = this.rootLocation
                 .toAbsolutePath()
-                .resolve(Paths.get(file.getOriginalFilename()).normalize());
+                .resolve(Paths.get(Objects.requireNonNull(file.getOriginalFilename())).normalize());
         try {
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
         }catch (IOException ex){

@@ -29,6 +29,5 @@ public class FileServiceImpl implements FileService {
     @Override
     public UrlResource loadFileByName(String fileName) {
         return fileStorage.load(fileName);
-
     }
 }
