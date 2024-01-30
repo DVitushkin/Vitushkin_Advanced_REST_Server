@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/v1/auth/**").anonymous()
                         .requestMatchers(HttpMethod.GET,"/v1/news").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/news/find").permitAll()
+                        .requestMatchers("/v1/file/**").permitAll()
                 )
                 .authorizeHttpRequests(req -> req.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
