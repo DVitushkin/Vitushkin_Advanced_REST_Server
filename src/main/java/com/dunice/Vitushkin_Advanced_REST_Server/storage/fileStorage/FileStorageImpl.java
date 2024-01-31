@@ -1,28 +1,30 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.storage.fileStorage;
 
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
+
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class FileStorageImpl implements FileStorage{
+public class FileStorageImpl implements FileStorage {
     private final Path rootLocation = Paths.get("upload-dir");
 
-    FileStorageImpl(){
+    FileStorageImpl() {
         init();
     }
     @Override
     public void init() {
         try {
             Files.createDirectories(rootLocation);
-        }catch (IOException ex){
+        }
+        catch (IOException ex) {
             throw new FileStorageException(ex.getMessage());
         }
     }
@@ -31,10 +33,11 @@ public class FileStorageImpl implements FileStorage{
     public void save(MultipartFile file) {
         Path destinationFile = this.rootLocation
                 .toAbsolutePath()
-                .resolve(Paths.get(file.getOriginalFilename()).normalize());
+                .resolve(Paths.get(Objects.requireNonNull(file.getOriginalFilename())).normalize());
         try {
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
-        }catch (IOException ex){
+        }
+        catch (IOException ex) {
             throw new FileStorageException(ex.getMessage());
         }
     }
@@ -46,17 +49,13 @@ public class FileStorageImpl implements FileStorage{
             UrlResource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            } else {
+            }
+            else {
                 throw new FileStorageException("Could not read the file!");
             }
-
-        } catch (MalformedURLException ex) {
+        }
+        catch (MalformedURLException ex) {
             throw new FileStorageException(ex.getMessage());
         }
-    }
-
-    @Override
-    public void deleteByName(String filename) {
-
     }
 }

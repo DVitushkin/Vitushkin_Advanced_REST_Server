@@ -1,9 +1,9 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.dto.user;
 
+import java.util.UUID;
+
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 @Builder

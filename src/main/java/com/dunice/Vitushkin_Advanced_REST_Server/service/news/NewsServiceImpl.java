@@ -62,7 +62,8 @@ public class NewsServiceImpl implements NewsService {
         Page<News> news;
         if (userId == null) {
             news = newsRepository.findAll(PageRequest.of(page - 1, perPage));
-        } else {
+        }
+        else {
             news = newsRepository.findAllByUserId(userId, PageRequest.of(page - 1, perPage));
         }
         List<GetNewsOutDto> content = newsMapper.mapToListOfDto(news.getContent());
@@ -110,8 +111,6 @@ public class NewsServiceImpl implements NewsService {
                 .stream()
                 .filter(tag -> newsRepository.countAllByTags(tag) == 0)
                 .forEach(tagRepository::delete);
-
-
 
         return BaseSuccessResponse.ok();
     }

@@ -9,5 +9,4 @@ public class VitushkinAdvancedRestServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VitushkinAdvancedRestServerApplication.class, args);
 	}
-
 }

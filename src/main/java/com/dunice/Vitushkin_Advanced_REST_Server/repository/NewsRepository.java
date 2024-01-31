@@ -1,11 +1,10 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.repository;
 
-import java.util.List;
 import java.util.UUID;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.models.News;
-
 import com.dunice.Vitushkin_Advanced_REST_Server.models.Tag;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,9 +1,11 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.config;
 
-import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsCode;
+import java.util.UUID;
+
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import com.dunice.Vitushkin_Advanced_REST_Server.logging.LoggerInterceptor;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
@@ -18,9 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import jakarta.persistence.EntityNotFoundException;
-
-import java.util.UUID;
 
 @Configuration
 @EnableJpaAuditing

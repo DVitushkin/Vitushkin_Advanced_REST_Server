@@ -3,7 +3,6 @@ package com.dunice.Vitushkin_Advanced_REST_Server.dto.user;
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 

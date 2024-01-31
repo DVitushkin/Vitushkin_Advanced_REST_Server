@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/v1/auth/**").anonymous()
-                        .requestMatchers(HttpMethod.GET,"/v1/news").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/news").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/news/find").permitAll()
                         .requestMatchers("/v1/file/**").permitAll()
                 )
