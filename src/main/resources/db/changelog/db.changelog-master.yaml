@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/V1_create_log_event_table.sql
+  - include:
+      file: db/changelog/V1_create_users_table.sql
+  - include:
+      file: db/changelog/V1_create_tag_table.sql
+  - include:
+      file: db/changelog/V1_create_news_table.sql
+  - include:
+      file: db/changelog/V1_create_news_tags_table.sql
