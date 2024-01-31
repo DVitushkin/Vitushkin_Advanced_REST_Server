@@ -19,9 +19,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class FileServiceImplTest {
@@ -65,12 +66,17 @@ class FileServiceImplTest {
     @Epic(value = "Actions on file service")
     @Feature(value = "Get file")
     @Description(value = "Getting existing file")
-    public void shouldReturnUrlResource() throws MalformedURLException {
+    public void shouldReturnUrlResource()  {
         String fileName = "testFile.jpg";
+        UrlResource url = mock(UrlResource.class);
+        Mockito
+                .when(url.getFilename())
+                .thenReturn(fileName);
 
         Mockito
                 .when(fileStorage.load(fileName))
-                .thenReturn(new UrlResource("file:" + fileName));
+                .thenReturn(url);
+
          var result = fileService.loadFileByName(fileName);
          assertEquals(fileName, result.getFilename());
     }
