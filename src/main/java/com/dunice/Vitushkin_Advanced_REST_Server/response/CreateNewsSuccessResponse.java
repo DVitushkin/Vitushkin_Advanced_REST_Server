@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class CreateNewsSuccessResponse extends BaseSuccessResponse{
+public class CreateNewsSuccessResponse extends BaseSuccessResponse {
     private Long id;
 
     public static CreateNewsSuccessResponse ok(Long id) {
@@ -16,5 +16,4 @@ public class CreateNewsSuccessResponse extends BaseSuccessResponse{
                 .success(true)
                 .build();
     }
-
 }

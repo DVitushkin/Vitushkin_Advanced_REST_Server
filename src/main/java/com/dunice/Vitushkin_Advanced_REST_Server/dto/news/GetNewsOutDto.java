@@ -1,9 +1,9 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.dto.news;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Builder
 @Data

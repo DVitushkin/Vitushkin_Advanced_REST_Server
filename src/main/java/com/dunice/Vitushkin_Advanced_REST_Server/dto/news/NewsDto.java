@@ -1,5 +1,7 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.dto.news;
 
+import java.util.List;
+
 import com.dunice.Vitushkin_Advanced_REST_Server.exception.ErrorsMsg;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,8 +9,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder
