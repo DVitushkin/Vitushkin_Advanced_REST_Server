@@ -25,9 +25,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Optional;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import org.springframework.data.domain.Page;
@@ -36,18 +41,19 @@ import org.springframework.data.domain.Page;
 class NewsServiceImplTest {
     @Mock
     private NewsRepository newsRepository;
-    @Mock
-    TagRepository tagRepository;
+
     @Mock
     private static UserRepository userRepository;
+
     @Mock
     private static NewsMapper newsMapper;
+
     @Mock
     private static NewsDao newsDao;
-    @Mock
-    private static TagMapper tagMapper;
+
     @InjectMocks
     private NewsServiceImpl newsService;
+
     private static Principal mockPrincipal;
     private static News newNews;
     private static List<News> listOfNews = new ArrayList<>();
@@ -71,7 +77,6 @@ class NewsServiceImplTest {
     private static void generateListOfNews(Integer listLength) {
         if (!listOfNews.isEmpty()) {
             listOfNews.clear();
-
         }
         Random random = new Random();
 
@@ -145,7 +150,6 @@ class NewsServiceImplTest {
         Mockito
                 .when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
-
 
         Mockito
                 .when(newsMapper.mapToEntity(newsDto))

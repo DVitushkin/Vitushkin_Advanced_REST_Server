@@ -17,15 +17,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -36,14 +36,10 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     private static User user;
-
     private static Principal mockPrincipal;
-
     private static PutUserDto putUserDto;
-
     private static final UUID correctUUID = UUID.fromString("50e8400-e29b-41d4-a716-446655440000");
     private static final UUID incorrectUUID = UUID.fromString("50e8400-1337-228e-a716-446655440000");
-
 
     @BeforeAll
     static void setUp() {
@@ -62,12 +58,10 @@ class UserServiceImplTest {
         putUserDto.setName("New Name");
         putUserDto.setRole("user");
 
-
         mockPrincipal = mock(Principal.class);
         Mockito
                 .when(mockPrincipal.getName())
                 .thenReturn(String.valueOf(correctUUID));
-
     }
 
     @Test
@@ -78,7 +72,6 @@ class UserServiceImplTest {
         Mockito
                 .when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
-
 
         var result = userService.getUserInfo(mockPrincipal);
 
@@ -136,7 +129,7 @@ class UserServiceImplTest {
     public void shouldReturnSuccessListUserView() {
         Mockito
                 .when(userRepository.findAll())
-                .thenReturn(Arrays.asList(
+                .thenReturn(List.of(
                         User
                                 .builder()
                                 .avatar("path/to/avatar1")

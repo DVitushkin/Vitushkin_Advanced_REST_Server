@@ -21,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.net.MalformedURLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith(MockitoExtension.class)
 class FileServiceImplTest {

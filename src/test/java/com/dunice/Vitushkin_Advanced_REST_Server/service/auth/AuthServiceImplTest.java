@@ -5,7 +5,6 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.jwt.JwtTokenUtil;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
-import com.dunice.Vitushkin_Advanced_REST_Server.service.auth.AuthServiceImpl;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -26,7 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
