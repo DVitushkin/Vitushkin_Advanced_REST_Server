@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtTokenUtil {
-    @Value("${application.security.jwt.secret-key}")
+    @Value("${spring.application.security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${application.security.jwt.expiration}")
+    @Value("${spring.application.security.jwt.expiration}")
     private long jwtExpiration;
 
     private byte[] getSignInKey() {
