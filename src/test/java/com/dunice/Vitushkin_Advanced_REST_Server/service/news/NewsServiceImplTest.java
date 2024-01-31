@@ -46,7 +46,13 @@ class NewsServiceImplTest {
     private static UserRepository userRepository;
 
     @Mock
+    private static TagRepository tagRepository;
+
+    @Mock
     private static NewsMapper newsMapper;
+
+    @Mock
+    private static TagMapper tagMapper;
 
     @Mock
     private static NewsDao newsDao;
