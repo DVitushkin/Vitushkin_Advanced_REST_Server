@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -18,11 +17,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class FileServiceImplTest {
@@ -66,15 +63,13 @@ class FileServiceImplTest {
     @Epic(value = "Actions on file service")
     @Feature(value = "Get file")
     @Description(value = "Getting existing file")
-    public void shouldReturnUrlResource()  {
+    public void shouldReturnUrlResource() {
         String fileName = "testFile.jpg";
         UrlResource url = mock(UrlResource.class);
-        Mockito
-                .when(url.getFilename())
+        when(url.getFilename())
                 .thenReturn(fileName);
 
-        Mockito
-                .when(fileStorage.load(fileName))
+        when(fileStorage.load(fileName))
                 .thenReturn(url);
 
          var result = fileService.loadFileByName(fileName);

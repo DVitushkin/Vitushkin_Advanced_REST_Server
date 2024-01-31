@@ -21,11 +21,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -59,8 +57,7 @@ class UserServiceImplTest {
         putUserDto.setRole("user");
 
         mockPrincipal = mock(Principal.class);
-        Mockito
-                .when(mockPrincipal.getName())
+        when(mockPrincipal.getName())
                 .thenReturn(String.valueOf(correctUUID));
     }
 
@@ -69,8 +66,7 @@ class UserServiceImplTest {
     @Feature(value = "GET user info")
     @Description(value = "Was putted propper put dto data")
     public void shouldReturnSuccessUserView() {
-        Mockito
-                .when(userRepository.findById(correctUUID))
+        when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
 
         var result = userService.getUserInfo(mockPrincipal);
@@ -85,16 +81,13 @@ class UserServiceImplTest {
     @Feature(value = "PUT user info")
     @Description(value = "Was putted horosho")
     public void shouldReturnSuccessPutResponse() {
-        Mockito
-                .when(userRepository.findById(correctUUID))
+        when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
 
-        Mockito
-                .when(userRepository.existsUserByEmail(putUserDto.getEmail()))
+        when(userRepository.existsUserByEmail(putUserDto.getEmail()))
                 .thenReturn(false);
 
-        Mockito
-                .when(userRepository.save(user))
+        when(userRepository.save(user))
                 .thenReturn(user);
 
 
@@ -110,12 +103,10 @@ class UserServiceImplTest {
     @Feature(value = "PUT user info")
     @Description(value = "Was putted already used email")
     public void shouldEntityExistsException() {
-        Mockito
-                .when(userRepository.findById(correctUUID))
+        when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
 
-        Mockito
-                .when(userRepository.existsUserByEmail(putUserDto.getEmail()))
+        when(userRepository.existsUserByEmail(putUserDto.getEmail()))
                 .thenReturn(true);
 
         user.setEmail("defaultEmail@mail.ru");
@@ -127,8 +118,7 @@ class UserServiceImplTest {
     @Feature(value = "GET all user info")
     @Description(value = "Returning correct list")
     public void shouldReturnSuccessListUserView() {
-        Mockito
-                .when(userRepository.findAll())
+        when(userRepository.findAll())
                 .thenReturn(List.of(
                         User
                                 .builder()
@@ -160,8 +150,7 @@ class UserServiceImplTest {
     @Feature(value = "GET user by id")
     @Description(value = "Returning user by correct ID")
     public void shouldReturnSuccessUserViewById() {
-        Mockito
-                .when(userRepository.findById(correctUUID))
+        when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
 
         var result = userService.getUserById(correctUUID);
@@ -176,8 +165,7 @@ class UserServiceImplTest {
     @Feature(value = "GET user by id")
     @Description(value = "Was putted incorrect ID")
     public void shouldReturnEntityNotFoundExc() {
-        Mockito
-                .when(userRepository.findById(incorrectUUID))
+        when(userRepository.findById(incorrectUUID))
                 .thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> userService.getUserById(incorrectUUID));
@@ -188,8 +176,7 @@ class UserServiceImplTest {
     @Feature(value = "DELETE user")
     @Description(value = "Correct deleting")
     public void shouldReturnBaseSuccess() {
-        Mockito
-                .when(userRepository.findById(correctUUID))
+        when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
 
         user.setId(correctUUID);

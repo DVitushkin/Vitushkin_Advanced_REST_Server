@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,6 +27,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceImplTest {
@@ -80,20 +80,16 @@ public class AuthServiceImplTest {
     @Feature(value = "Register a news.")
     @Description(value = "Proper register of new user")
     public void shouldReturnSuccessResponse() {
-        Mockito
-                .when(userRepository.existsUserByEmail(registerDto.getEmail()))
+        when(userRepository.existsUserByEmail(registerDto.getEmail()))
                 .thenReturn(false);
 
-        Mockito
-                .when(passwordEncoder.encode(registerDto.getPassword()))
+        when(passwordEncoder.encode(registerDto.getPassword()))
                         .thenReturn("encodedPassword");
 
-        Mockito
-                .when(userRepository.save(user))
+        when(userRepository.save(user))
                 .thenReturn(user);
 
-        Mockito
-                .when(jwtTokenUtil.generateToken(user))
+        when(jwtTokenUtil.generateToken(user))
                 .thenReturn("correctJwtToken");
 
         var result = authService.register(registerDto);
@@ -108,8 +104,7 @@ public class AuthServiceImplTest {
     @Feature(value = "Register a news.")
     @Description(value = "Incorrect registration of new user, by existing user email")
     public void shouldAssertEntityExist() {
-        Mockito
-                .when(userRepository.existsUserByEmail(registerDto.getEmail()))
+        when(userRepository.existsUserByEmail(registerDto.getEmail()))
                 .thenReturn(true);
 
         assertThrows(EntityExistsException.class, () -> authService.register(registerDto));
@@ -120,21 +115,17 @@ public class AuthServiceImplTest {
     @Feature(value = "Login a news.")
     @Description(value = "Proper login of new user")
     public void shouldReturnSuccessLogin() {
-
-        Mockito
-                .when(userRepository.findByEmail(authDto.getEmail()))
+        when(userRepository.findByEmail(authDto.getEmail()))
                 .thenReturn(Optional.ofNullable(user));
 
 
         Authentication authentication = mock(Authentication.class);
-        Mockito
-                .when(authenticationManager.authenticate(
+        when(authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 user.getId(), authDto.getPassword())))
                         .thenReturn(authentication);
 
-        Mockito
-                .when(jwtTokenUtil.generateToken(user))
+        when(jwtTokenUtil.generateToken(user))
                 .thenReturn("correctJwtToken");
 
         var result = authService.login(authDto);
@@ -151,8 +142,7 @@ public class AuthServiceImplTest {
     public void shouldAssertEntityNotFound() {
         authDto.setEmail("NonCorrectEmail@mail.ru");
 
-        Mockito
-                .when(userRepository.findByEmail(authDto.getEmail()))
+        when(userRepository.findByEmail(authDto.getEmail()))
                 .thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> authService.login(authDto));
@@ -165,12 +155,10 @@ public class AuthServiceImplTest {
     public void shouldAssertPasswordNonCorrect() {
         authDto.setPassword("nonCorrectPassword");
 
-        Mockito
-                .when(userRepository.findByEmail(authDto.getEmail()))
+        when(userRepository.findByEmail(authDto.getEmail()))
                 .thenReturn(Optional.ofNullable(user));
 
-        Mockito
-                .when(authenticationManager.authenticate(
+        when(authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 user.getId(), authDto.getPassword())))
                 .thenThrow(BadCredentialsException.class);

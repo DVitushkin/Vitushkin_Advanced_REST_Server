@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +33,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.springframework.data.domain.Page;
 
@@ -65,8 +65,8 @@ class NewsServiceImplTest {
     private static List<News> listOfNews = new ArrayList<>();
     private static NewsDto newsDto;
     private static User user;
-    private static final UUID correctUUID = UUID.fromString("50e8400-e29b-41d4-a716-446655440000");
-    private static Long newsId = 1L;
+    private static final UUID correctUUID = UUID.randomUUID();
+    private static Long newsId;
 
     private static String getRandomString(Integer stringLength) {
         Integer leftLimit = 48;
@@ -110,6 +110,7 @@ class NewsServiceImplTest {
 
     @BeforeAll
     public static void setup() {
+        newsId = new Random().nextLong(1, 13);
         user = User
                 .builder()
                 .avatar("path/to/avatar")
@@ -143,8 +144,7 @@ class NewsServiceImplTest {
         );
 
         mockPrincipal = mock(Principal.class);
-        Mockito
-                .when(mockPrincipal.getName())
+        when(mockPrincipal.getName())
                 .thenReturn(String.valueOf(correctUUID));
     }
 
@@ -153,22 +153,19 @@ class NewsServiceImplTest {
     @Feature(value = "POST news")
     @Description(value = "Was putted proper news dto")
     public void shouldReturnSuccessCreateNews() {
-        Mockito
-                .when(userRepository.findById(correctUUID))
+        when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
 
-        Mockito
-                .when(newsMapper.mapToEntity(newsDto))
+        when(newsMapper.mapToEntity(newsDto))
                 .thenReturn(newNews);
 
-        Mockito
-                .when(newsRepository.save(newNews))
+        when(newsRepository.save(newNews))
                 .thenReturn(newNews);
 
         var result = newsService.createNews(mockPrincipal, newsDto);
         assertEquals(true, result.getSuccess());
         assertEquals(1, result.getStatusCode());
-        assertEquals(1, result.getId());
+        assertEquals(newsId, result.getId());
     }
 
     @Test
@@ -182,8 +179,7 @@ class NewsServiceImplTest {
         generateListOfNews(sizeOfListOfNews);
 
         Page<News> AllPaginatedNewsMock = new PageImpl<>(new ArrayList<>(), pageRequest, sizeOfListOfNews);
-        Mockito
-                .when(newsRepository.findAll(pageRequest))
+        when(newsRepository.findAll(pageRequest))
                 .thenReturn(AllPaginatedNewsMock);
 
         var result = newsService.getPaginatedNews(pageRequest.getPageNumber() + 1, pageRequest.getPageSize(), null);
@@ -203,8 +199,7 @@ class NewsServiceImplTest {
         generateListOfNews(sizeOfListOfNews);
 
         Page<News> PaginatedNewsByUserMock = new PageImpl<>(new ArrayList<>(), pageRequest, sizeOfListOfNews);
-        Mockito
-                .when(newsRepository.findAll(pageRequest))
+        when(newsRepository.findAll(pageRequest))
                 .thenReturn(PaginatedNewsByUserMock);
 
         var result = newsService.getPaginatedNews(pageRequest.getPageNumber() + 1, pageRequest.getPageSize(), null);
@@ -227,8 +222,7 @@ class NewsServiceImplTest {
         generateListOfNews(sizeOfListOfNews);
 
         Page<News> certainNewsMock = new PageImpl<>(new ArrayList<>(), pageRequest, sizeOfListOfNews);
-        Mockito
-                .when(newsDao.findAllByParameters(author, keywords, tags, pageRequest))
+        when(newsDao.findAllByParameters(author, keywords, tags, pageRequest))
                 .thenReturn(certainNewsMock);
 
         var result = newsService.getCertainNews(pageRequest.getPageNumber() + 1, pageRequest.getPageSize(), author, keywords, tags);
@@ -240,8 +234,7 @@ class NewsServiceImplTest {
     @Feature(value = "PUT news by id")
     @Description(value = "Was putted proper params")
     public void shouldReturnSuccessUpdate() {
-        Mockito
-                .when(newsRepository.findById(newsId))
+        when(newsRepository.findById(newsId))
                 .thenReturn(Optional.ofNullable(newNews));
 
         var result = newsService.updateNewsById(newsId, newsDto);
@@ -254,8 +247,7 @@ class NewsServiceImplTest {
     @Feature(value = "PUT news by id")
     @Description(value = "Was putted incorrect news Id")
     public void shouldReturnEntityNotFound() {
-        Mockito
-                .when(newsRepository.findById(newsId))
+        when(newsRepository.findById(newsId))
                 .thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> newsService.updateNewsById(newsId, newsDto));
@@ -266,8 +258,7 @@ class NewsServiceImplTest {
     @Feature(value = "Delete news by id")
     @Description(value = "Was putted proper params")
     public void shouldReturnSuccessDelete() {
-        Mockito
-                .when(newsRepository.existsById(newsId))
+        when(newsRepository.existsById(newsId))
                 .thenReturn(true);
 
         var result = newsService.deleteNewsById(newsId);
@@ -280,8 +271,7 @@ class NewsServiceImplTest {
     @Feature(value = "Delete news by id")
     @Description(value = "Was putted incorrect news id")
     public void shouldReturnErrorDelete() {
-        Mockito
-                .when(newsRepository.existsById(newsId))
+        when(newsRepository.existsById(newsId))
                 .thenReturn(false);
 
         assertThrows(EntityNotFoundException.class, () -> newsService.deleteNewsById(newsId));
