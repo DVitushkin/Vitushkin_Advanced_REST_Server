@@ -38,6 +38,8 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     implementation group: 'io.qameta.allure', name: 'allure-spring-web', version: '2.25.0'
+
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.24.0'
 }
 
 tasks.named('test') {

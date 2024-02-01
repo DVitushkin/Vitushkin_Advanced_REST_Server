@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: "jdbc:${DB_TYPE}://${SERVER_DB_HOST}:${SERVER_DB_PORT}/${SERVER_DB_NAME}"
+    username: ${SERVER_DB_LOGIN}
+    password: ${SERVER_DB_PASS}
+    driver-class-name: ${DB_DRIVER_TYPE}
+
+  application:
+    security:
+      jwt:
+        secret-key: ${JWT_SECRET_KEY}
+        expiration: ${JWT_TOKEN_EXPIRATION}
