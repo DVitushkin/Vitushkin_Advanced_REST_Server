@@ -5,9 +5,6 @@ import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.RegisterUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.jwt.JwtTokenUtil;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
@@ -76,9 +73,6 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on auth")
-    @Feature(value = "Register a news.")
-    @Description(value = "Proper register of new user")
     public void shouldReturnSuccessResponse() {
         when(userRepository.existsUserByEmail(registerDto.getEmail()))
                 .thenReturn(false);
@@ -100,9 +94,6 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on auth")
-    @Feature(value = "Register a news.")
-    @Description(value = "Incorrect registration of new user, by existing user email")
     public void shouldAssertEntityExist() {
         when(userRepository.existsUserByEmail(registerDto.getEmail()))
                 .thenReturn(true);
@@ -111,9 +102,6 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on auth")
-    @Feature(value = "Login a news.")
-    @Description(value = "Proper login of new user")
     public void shouldReturnSuccessLogin() {
         when(userRepository.findByEmail(authDto.getEmail()))
                 .thenReturn(Optional.ofNullable(user));
@@ -136,9 +124,6 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on auth")
-    @Feature(value = "Login a news.")
-    @Description(value = "Incorrect login of new user, by passing non exit email")
     public void shouldAssertEntityNotFound() {
         authDto.setEmail("NonCorrectEmail@mail.ru");
 
@@ -149,9 +134,6 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on auth")
-    @Feature(value = "Login a news.")
-    @Description(value = "Incorrect login of new user, by passing incorrect password")
     public void shouldAssertPasswordNonCorrect() {
         authDto.setPassword("nonCorrectPassword");
 

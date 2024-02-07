@@ -1,9 +1,6 @@
 package com.dunice.Vitushkin_Advanced_REST_Server.service.file;
 
 import com.dunice.Vitushkin_Advanced_REST_Server.storage.fileStorage.FileStorageImpl;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,9 +36,6 @@ class FileServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on file service")
-    @Feature(value = "Upload file")
-    @Description(value = "Uploading file on server")
     public void shouldReturnSuccessCreateNews() {
         MockMultipartFile file = new MockMultipartFile(
                 "file",
@@ -60,9 +54,6 @@ class FileServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on file service")
-    @Feature(value = "Get file")
-    @Description(value = "Getting existing file")
     public void shouldReturnUrlResource() {
         String fileName = "testFile.jpg";
         UrlResource url = mock(UrlResource.class);

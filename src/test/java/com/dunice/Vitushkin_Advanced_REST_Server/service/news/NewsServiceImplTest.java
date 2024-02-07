@@ -10,9 +10,6 @@ import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsDao;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.NewsRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.TagRepository;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -149,9 +146,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "POST news")
-    @Description(value = "Was putted proper news dto")
     public void shouldReturnSuccessCreateNews() {
         when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
@@ -169,9 +163,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "GET paginated news")
-    @Description(value = "Was putted proper without user id")
     public void shouldReturnAllPaginatedNews() {
         var pageRequest = PageRequest.of(1, 3);
 
@@ -189,9 +180,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "GET paginated news")
-    @Description(value = "Was putted proper with user id")
     public void shouldReturnPaginatedNewsByUser() {
         var pageRequest = PageRequest.of(1, 3);
 
@@ -209,9 +197,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "GET certain news")
-    @Description(value = "Was putted proper params")
     public void shouldReturnPaginatedNewsByParams() {
         var pageRequest = PageRequest.of(1, 3);
         Optional<String> author = Optional.of("Marked T");
@@ -230,9 +215,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "PUT news by id")
-    @Description(value = "Was putted proper params")
     public void shouldReturnSuccessUpdate() {
         when(newsRepository.findById(newsId))
                 .thenReturn(Optional.ofNullable(newNews));
@@ -243,9 +225,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "PUT news by id")
-    @Description(value = "Was putted incorrect news Id")
     public void shouldReturnEntityNotFound() {
         when(newsRepository.findById(newsId))
                 .thenReturn(Optional.empty());
@@ -254,9 +233,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "Delete news by id")
-    @Description(value = "Was putted proper params")
     public void shouldReturnSuccessDelete() {
         when(newsRepository.existsById(newsId))
                 .thenReturn(true);
@@ -267,9 +243,6 @@ class NewsServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on news service")
-    @Feature(value = "Delete news by id")
-    @Description(value = "Was putted incorrect news id")
     public void shouldReturnErrorDelete() {
         when(newsRepository.existsById(newsId))
                 .thenReturn(false);
