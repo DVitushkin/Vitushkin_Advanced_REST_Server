@@ -3,9 +3,6 @@ package com.dunice.Vitushkin_Advanced_REST_Server.service.user;
 import com.dunice.Vitushkin_Advanced_REST_Server.dto.user.PutUserDto;
 import com.dunice.Vitushkin_Advanced_REST_Server.models.User;
 import com.dunice.Vitushkin_Advanced_REST_Server.repository.UserRepository;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.security.Principal;
@@ -62,9 +58,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "GET user info")
-    @Description(value = "Was putted propper put dto data")
     public void shouldReturnSuccessUserView() {
         when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
@@ -77,9 +70,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "PUT user info")
-    @Description(value = "Was putted horosho")
     public void shouldReturnSuccessPutResponse() {
         when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
@@ -99,9 +89,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "PUT user info")
-    @Description(value = "Was putted already used email")
     public void shouldEntityExistsException() {
         when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
@@ -114,9 +101,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "GET all user info")
-    @Description(value = "Returning correct list")
     public void shouldReturnSuccessListUserView() {
         when(userRepository.findAll())
                 .thenReturn(List.of(
@@ -146,9 +130,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "GET user by id")
-    @Description(value = "Returning user by correct ID")
     public void shouldReturnSuccessUserViewById() {
         when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
@@ -161,9 +142,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "GET user by id")
-    @Description(value = "Was putted incorrect ID")
     public void shouldReturnEntityNotFoundExc() {
         when(userRepository.findById(incorrectUUID))
                 .thenReturn(Optional.empty());
@@ -172,9 +150,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Epic(value = "Actions on user service")
-    @Feature(value = "DELETE user")
-    @Description(value = "Correct deleting")
     public void shouldReturnBaseSuccess() {
         when(userRepository.findById(correctUUID))
                 .thenReturn(Optional.ofNullable(user));
